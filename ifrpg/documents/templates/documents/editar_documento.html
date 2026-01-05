@@ -1,0 +1,9 @@
+{% extends 'face/base.html' %}
+{% block content %}
+    <h1>Editar Documento</h1>
+    <form action="{% url 'editar_documento' document_id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+    </form>
+{% endblock %}

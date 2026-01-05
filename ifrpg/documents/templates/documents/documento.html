@@ -1,0 +1,11 @@
+{% extends 'face/base.html' %}
+{% block content %}
+    <h1>Documentos</h1>
+    <ul>
+    {% for document in list %}
+        <li>{{ document.titulo }} - {{ document.data }}</li>
+        <a href="{% url 'editar_documento' document.pk %}">Editar Documento</a>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'novo_documento' %}">Adicionar Novo Documento</a>
+{% endblock %}
