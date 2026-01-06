@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from .models import Documentos
 from .form import DocumentForm
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 def documento(request):
     list = Documentos.objects.order_by('data')
     context = {'list': list}
