@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     #----------------------------------------------------------------------------#,
     'face',
     'documents',
+    'rpg',
+    #----------------------------------------------------------------------------#,
+    'django_cleanup.apps.CleanupConfig', #ficar por ultimo o cleanup
+
 ]
 
 MIDDLEWARE = [
@@ -109,9 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -134,3 +138,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = 'login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'login/'
+
