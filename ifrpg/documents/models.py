@@ -1,10 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Documentos(models.Model):
     titulo = models.CharField(max_length=200)
-    link = models.URLField(max_length=200, default="#")
-    player = models.ForeignKey("face.Login", verbose_name=("player"), on_delete=models.CASCADE)
+    arquivo = models.FileField(upload_to='documentos/', blank=True)
+    usuario = models.ForeignKey(User, verbose_name=("usuario"), on_delete=models.CASCADE)
     data = models.DateTimeField(auto_now_add=True)
+    permitidos = models.ManyToManyField(User, related_name='usuarios_permitidos', blank=True)
 
     class Meta:
         verbose_name_plural = "Documentos"
