@@ -6,5 +6,9 @@ class RPGmodel(models.Model):
     mestre = models.ForeignKey(User, related_name='mestre', on_delete=models.CASCADE)
     jogadores = models.ManyToManyField(User, related_name='jogadores')
 
+    class Meta:
+        verbose_name = "RPG"
+        verbose_name_plural = "RPGS"
+
     def __str__(self):
         return self.nome
