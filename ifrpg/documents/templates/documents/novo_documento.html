@@ -1,9 +1,0 @@
-{% extends 'face/base.html' %}
-{% block content %}
-    <h1>Novo Documento</h1>
-    <form action="{% url 'novo_documento' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Salvar</button>
-    </form>
-{% endblock %}

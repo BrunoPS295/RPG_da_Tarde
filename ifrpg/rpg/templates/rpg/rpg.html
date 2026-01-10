@@ -1,7 +1,0 @@
-{% extends 'face/base.html' %}
-{% block content %}
-    <h1>RPG</h1>
-    {% for rpg in rpgs %}
-        <p><a href="/rpg/{{ rpg.id }}/">{{ rpg.nome }}</a></p>
-    {% endfor %}
-{% endblock %}
