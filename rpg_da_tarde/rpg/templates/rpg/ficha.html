@@ -1,0 +1,264 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.errors}}
+        {%if ficha.rpg == none%}
+            <select name="rpg">
+                    <option value="">Selecione um RPG</option>
+                    {% for choice in form.rpg.field.queryset %}
+                        <option value="{{ choice.pk }}">{{ choice.rpg_nome }}</option>
+                    {% endfor %}
+            </select>
+        {% endif %}  
+        <header>
+            <div id="l_header">
+                <input type="text" name="nome" value="{{ ficha.nome|default_if_none:'' }}">
+                <p>Nome do personagem</p>
+            </div>
+            <div id="r_header">
+                <div id="iclasse">
+                    <input type="text" name="classe" value="{{ ficha.classe|default_if_none:'' }}">
+                    <p>Classe e Nível</p>
+                </div>
+                <div id="iantecedente">
+                    <input type="text" name="antecedente" value="{{ ficha.antecedente|default_if_none:'' }}">
+                    <p>Antecedentes</p>
+                </div>
+                <div id="ijogador">
+                    <p>{{ ficha.jogador }}</p>
+                    <p>Nome do Jogador</p>
+                </div>
+                <div id="iraca">
+                    <input type="text" name="raca" value="{{ ficha.raca|default_if_none:'' }}">
+                    <p>Raça</p>
+                </div>
+                <div id="ialinhamento">
+                    <input type="text" name="alinhamento" value="{{ ficha.alinhamento|default_if_none:'' }}">
+                    <p>Alinhamento</p>
+                </div>
+                <div id="iexperiencia">
+                    <p>{{ ficha.experiencia }}</p>
+                    <p>Pontos de Experiência</p>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div id="upper_main">
+                <div class="atributo">
+                    <h2>Força</h2>
+                    <input type="number" name="forca" value="{{ ficha.forca|default_if_none:'' }}">
+                    <p id="atr_forca"></p>
+                </div>
+                <div class="atributo">
+                    <h2>Destreza</h2>
+                    <input type="number" name="destreza" value="{{ ficha.destreza|default_if_none:'' }}">
+                    <p id="atr_destreza"></p>
+                </div>
+                <div class="atributo">
+                    <h2>Constituição</h2>
+                    <input type="number" name="constituicao" value="{{ ficha.constituicao|default_if_none:'' }}">
+                    <p id="atr_constituicao"></p>
+                </div>
+                <div class="atributo">
+                    <h2>Inteligência</h2>
+                    <input type="number" name="inteligencia" value="{{ ficha.inteligencia|default_if_none:'' }}">
+                    <p id="atr_inteligencia"></p>
+                </div>
+                <div class="atributo">
+                    <h2>Sabedoria</h2>
+                    <input type="number" name="sabedoria" value="{{ ficha.sabedoria|default_if_none:'' }}">
+                    <p id="atr_sabedoria"></p>
+                </div>
+                <div class="atributo">
+                    <h2>Carisma</h2>
+                    <input type="number" name="carisma" value="{{ ficha.carisma|default_if_none:'' }}">
+                    <p id="atr_carisma"></p>
+                </div>
+            <div id="l_main">
+                <div id="inspiracao_container">
+                    <label for="inspiracao">
+                        <input id="inspiracao" type="number" name="inspiracao" value="{{ ficha.inspiracao|default_if_none:'' }}">
+                    Inspiração</label>
+                </div>
+                <div id="salvaguardas_container">
+                    <div class="salvaguardas">
+                        <input id="salva_forca" type="checkbox">
+                        <p>
+                            <span id="salva_forca"></span>
+                            <span>Força</span>
+                        </p>
+                    </div>
+                    <div class="salvaguardas">
+                        <input id="salva_destreza" type="checkbox">
+                        <p>
+                            <span id="salva_destreza"></span>
+                            <span>Destreza</span>
+                        </p>
+                    </div>
+                    <div class="salvaguardas">
+                        <input id="salva_constituicao" type="checkbox">
+                        <p>
+                            <span id="salva_constituicao"></span>
+                            <span>Constituição</span>
+                        </p>
+                    </div>
+                    <div class="salvaguardas">
+                        <input id="salva_inteligencia" type="checkbox">
+                        <p>
+                            <span id="salva_inteligencia"></span>
+                            <span>Inteligência</span>
+                        </p>
+                    </div>
+                    <div class="salvaguardas">
+                        <input id="salva_sabedoria" type="checkbox">
+                        <p>
+                            <span id="salva_sabedoria"></span>
+                            <span>Sabedoria</span>
+                        </p>
+                    </div>
+                    <div class="salvaguardas">
+                        <input id="salva_carisma" type="checkbox">
+                        <p>
+                            <span id="salva_carisma"></span>
+                            <span>Carisma</span>
+                        </p>
+                    </div>
+                </div>
+                <div id="pericias_container">
+                    <div class="pericias">
+                        <input id="acrobacia" type="checkbox">
+                        <p>
+                            <span id="acrobacia"></span>
+                            <span>Acrobacia (Des)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="arcanismo" type="checkbox">
+                        <p>
+                            <span id="arcanismo"></span>
+                            <span>Arcanismo (Int)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="aletismo" type="checkbox">
+                        <p>
+                            <span id="aletismo"></span>
+                            <span>Atletismo (For)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="atuacao" type="checkbox">
+                        <p>
+                            <span id="atuacao"></span>
+                            <span>Atuação (Car)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="enganacao" type="checkbox">
+                        <p>
+                            <span id="enganacao"></span>
+                            <span>Enganação (Car)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="furtividade" type="checkbox">
+                        <p>
+                            <span id="furtividade"></span>
+                            <span>Furtividade (Des)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="historia" type="checkbox">
+                        <p>
+                            <span id="historia"></span>
+                            <span>História (Int)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="intimidacao" type="checkbox">
+                        <p>
+                            <span id="intimidacao"></span>
+                            <span>Intimidação (Car)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="animais" type="checkbox">
+                        <p>
+                            <span id="animais"></span>
+                            <span>Lidar com Animais (Sab)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="medicina" type="checkbox">
+                        <p>
+                            <span id="medicina"></span>
+                            <span>Medicina (Sab)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="natureza" type="checkbox">
+                        <p>
+                            <span id="natureza"></span>
+                            <span>Natureza (Int)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="percepcao" type="checkbox">
+                        <p>
+                            <span id="percepcao"></span>
+                            <span>Percepção (Sab)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="persuasao" type="checkbox">
+                        <p>
+                            <span id="persuasao"></span>
+                            <span>Persuasão (Car)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="prestidigitacao" type="checkbox">
+                        <p>
+                            <span id="prestidigitacao"></span>
+                            <span>Prestidigitação (Des)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="religiao" type="checkbox">
+                        <p>
+                            <span id="religiao"></span>
+                            <span>Religião (Int)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="sobrevivencia" type="checkbox">
+                        <p>
+                            <span id="sobrevivencia"></span>
+                            <span>Sobrevivência (Sab)</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="r_main">
+                <div id="upper_r_main">
+                    <div id="ca_container">
+                        <h2>Classe de Armadura</h2>
+                        <p id="ca_value"></p>
+                    </div>
+                    <div id="ini_container">
+                        <h2>Iniciativa</h2>
+                        <p id="ini_value"></p>
+                    </div>
+                    <div id="des_container">
+                        <h2>Deslocamento</h2>
+                        <p id="des_value"></p>
+                    </div>
+            </div>
+        </main>
+        
+        
+
+        <button type="submit">Salvar</button>
+    </form>
+{% endblock %}

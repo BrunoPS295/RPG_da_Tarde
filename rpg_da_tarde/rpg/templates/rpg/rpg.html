@@ -1,7 +1,8 @@
 {% extends 'base/base.html' %}
 {% block content %}
-    <h1>RPG</h1>
-    {% for rpg in rpgs %}
-        <p><a href="/rpg/{{ rpg.id }}/">{{ rpg.nome }}</a></p>
+    <h1>Fichas</h1>
+    {% for ficha in fichas %}
+        <p><a href="ficha/{{ ficha.id }}/">{{ ficha.nome }}</a></p>
     {% endfor %}
+    <button><a href="{% url 'criar_ficha'%}">Criar Ficha</a></button>
 {% endblock %}
