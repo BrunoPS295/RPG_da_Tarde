@@ -31,8 +31,11 @@ def rpg(request, id):
     ficha = get_object_or_404(Ficha, id=id)
     if request.method == 'POST':
         form = FichaForm(request.POST, instance=ficha, user=request.user)
+        prof_checks = request.POST.getlist('prof_checks')
         if form.is_valid():
             form.save()
+            ficha.prof_check = prof_checks
+            ficha.save()
             return redirect('rpg', id=ficha.id)
     else:
         form = FichaForm(instance=ficha, user=request.user)

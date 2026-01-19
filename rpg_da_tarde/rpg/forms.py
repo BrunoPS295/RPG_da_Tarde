@@ -1,3 +1,4 @@
+
 from django import forms
 from .models import Ficha
 
@@ -12,15 +13,15 @@ class FichaForm(forms.ModelForm):
             'raca', 
             'alinhamento', 
 
-            #'pontos_de_vida_maximos',
-            #'dado_de_vida',
+            'max_pv',
+            'dado_de_vida',
 
-            #'força', 
-            #'destreza',
-            #'constituição',
-            #'inteligencia',
-            #'sabedoria',
-            #'carisma'
+            'forca', 
+            'destreza',
+            'constituicao',
+            'inteligencia',
+            'sabedoria',
+            'carisma'
         ]
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)

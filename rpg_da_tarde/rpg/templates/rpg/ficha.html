@@ -1,5 +1,11 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block content %}
+    <head>
+        <script type="text/javascript" src="{% static 'rpg/scripts/ficha.js' %}?v=1.0" defer>
+        </script> 
+    </head>
+    
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.errors}}
@@ -10,6 +16,8 @@
                         <option value="{{ choice.pk }}">{{ choice.rpg_nome }}</option>
                     {% endfor %}
             </select>
+        {% else %}
+            <input type="hidden" name="rpg" value="{{ ficha.rpg.id }}">
         {% endif %}  
         <header>
             <div id="l_header">
@@ -38,7 +46,7 @@
                     <p>Alinhamento</p>
                 </div>
                 <div id="iexperiencia">
-                    <p>{{ ficha.experiencia }}</p>
+                    <input type="text" name="experiencia" value="{{ ficha.experiencia|default_if_none:'' }}">
                     <p>Pontos de Experiência</p>
                 </div>
             </div>
@@ -47,194 +55,231 @@
             <div id="upper_main">
                 <div class="atributo">
                     <h2>Força</h2>
-                    <input type="number" name="forca" value="{{ ficha.forca|default_if_none:'' }}">
-                    <p id="atr_forca"></p>
+                    <input id="brut_forca" type="number" name="forca" value="{{ ficha.forca|default_if_none:'' }}">
+                    <p id="atr_forca">
+                        0
+                    </p>
                 </div>
                 <div class="atributo">
                     <h2>Destreza</h2>
-                    <input type="number" name="destreza" value="{{ ficha.destreza|default_if_none:'' }}">
-                    <p id="atr_destreza"></p>
+                    <input id="brut_destreza" type="number" name="destreza" value="{{ ficha.destreza|default_if_none:'' }}">
+                    <p id="atr_destreza">
+                        0
+                    </p>
                 </div>
                 <div class="atributo">
                     <h2>Constituição</h2>
-                    <input type="number" name="constituicao" value="{{ ficha.constituicao|default_if_none:'' }}">
-                    <p id="atr_constituicao"></p>
+                    <input id="brut_constituicao" type="number" name="constituicao" value="{{ ficha.constituicao|default_if_none:'' }}">
+                    <p id="atr_constituicao">
+                        0
+                    </p>
                 </div>
                 <div class="atributo">
                     <h2>Inteligência</h2>
-                    <input type="number" name="inteligencia" value="{{ ficha.inteligencia|default_if_none:'' }}">
-                    <p id="atr_inteligencia"></p>
+                    <input id="brut_inteligencia" type="number" name="inteligencia" value="{{ ficha.inteligencia|default_if_none:'' }}">
+                    <p id="atr_inteligencia">
+                        0
+                    </p>
                 </div>
                 <div class="atributo">
                     <h2>Sabedoria</h2>
-                    <input type="number" name="sabedoria" value="{{ ficha.sabedoria|default_if_none:'' }}">
-                    <p id="atr_sabedoria"></p>
+                    <input id="brut_sabedoria" type="number" name="sabedoria" value="{{ ficha.sabedoria|default_if_none:'' }}">
+                    <p id="atr_sabedoria">
+                        0
+                    </p>
                 </div>
                 <div class="atributo">
                     <h2>Carisma</h2>
-                    <input type="number" name="carisma" value="{{ ficha.carisma|default_if_none:'' }}">
-                    <p id="atr_carisma"></p>
+                    <input id="brut_carisma" type="number" name="carisma" value="{{ ficha.carisma|default_if_none:'' }}">
+                    <p id="atr_carisma">
+                        0
+                    </p>
                 </div>
             <div id="l_main">
+                <div id="prof_container">
+                    <label for="bonus_de_proficiencia"><input type="number" id="prof_bonus" name="bonus_de_proficiencia" value="{{ ficha.bonus_de_proficiencia|default_if_none:'' }}">Proficiência</label>
+                </div>
                 <div id="inspiracao_container">
                     <label for="inspiracao">
                         <input id="inspiracao" type="number" name="inspiracao" value="{{ ficha.inspiracao|default_if_none:'' }}">
                     Inspiração</label>
                 </div>
                 <div id="salvaguardas_container">
+                    <h2>Salvaguardas</h2>
                     <div class="salvaguardas">
-                        <input id="salva_forca" type="checkbox">
+                        <input id="check_salva_forca" type="checkbox" name="prof_checks" value="salva_forca"
+                        {% if "salva_forca" in ficha.prof_check %}
+                            checked
+                        
+                        {% endif %}
+                        >
                         <p>
-                            <span id="salva_forca"></span>
+                            <span id="salva_forca">0</span>
                             <span>Força</span>
                         </p>
                     </div>
                     <div class="salvaguardas">
-                        <input id="salva_destreza" type="checkbox">
+                        <input id="check_salva_destreza" type="checkbox" name="prof_checks" value="salva_destreza" 
+                        {% if "salva_destreza" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="salva_destreza"></span>
+                            <span id="salva_destreza">0</span>
                             <span>Destreza</span>
                         </p>
                     </div>
                     <div class="salvaguardas">
-                        <input id="salva_constituicao" type="checkbox">
+                        <input id="check_salva_constituicao" type="checkbox" name="prof_checks" value="salva_constituicao" {% if "salva_constituicao" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="salva_constituicao"></span>
+                            <span id="salva_constituicao">0</span>
                             <span>Constituição</span>
                         </p>
                     </div>
                     <div class="salvaguardas">
-                        <input id="salva_inteligencia" type="checkbox">
+                        <input id="check_salva_inteligencia" type="checkbox" name="prof_checks" value="salva_inteligencia" {% if "salva_inteligencia" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="salva_inteligencia"></span>
+                            <span id="salva_inteligencia">0</span>
                             <span>Inteligência</span>
                         </p>
                     </div>
                     <div class="salvaguardas">
-                        <input id="salva_sabedoria" type="checkbox">
+                        <input id="check_salva_sabedoria" type="checkbox" name="prof_checks" value="salva_sabedoria" {% if "salva_sabedoria" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="salva_sabedoria"></span>
+                            <span id="salva_sabedoria">0</span>
                             <span>Sabedoria</span>
                         </p>
                     </div>
                     <div class="salvaguardas">
-                        <input id="salva_carisma" type="checkbox">
+                        <input id="check_salva_carisma" type="checkbox" name="prof_checks" value="salva_carisma" {% if "salva_carisma" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="salva_carisma"></span>
+                            <span id="salva_carisma">0</span>
                             <span>Carisma</span>
                         </p>
                     </div>
                 </div>
                 <div id="pericias_container">
+                    <h2>Perícias</h2>
                     <div class="pericias">
-                        <input id="acrobacia" type="checkbox">
+                        <input id="check_acrobacia" type="checkbox" name="prof_checks" value="acrobacia" {% if "acrobacia" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="acrobacia"></span>
+                            <span id="acrobacia">0</span>
                             <span>Acrobacia (Des)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="arcanismo" type="checkbox">
+                        <input id="check_arcanismo" type="checkbox" name="prof_checks" value="arcanismo" {% if "arcanismo" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="arcanismo"></span>
+                            <span id="arcanismo">0</span>
                             <span>Arcanismo (Int)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="aletismo" type="checkbox">
+                        <input id="check_aletismo" type="checkbox" name="prof_checks" value="aletismo" {% if "aletismo" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="aletismo"></span>
+                            <span id="atletismo">0</span>
                             <span>Atletismo (For)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="atuacao" type="checkbox">
+                        <input id="check_atuacao" type="checkbox" name="prof_checks" value="atuacao" {% if "atuacao" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="atuacao"></span>
+                            <span id="atuacao">0</span>
                             <span>Atuação (Car)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="enganacao" type="checkbox">
+                        <input id="check_enganacao" type="checkbox" name="prof_checks" value="enganacao" {% if "enganacao" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="enganacao"></span>
+                            <span id="enganacao">0</span>
                             <span>Enganação (Car)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="furtividade" type="checkbox">
+                        <input id="check_furtividade" type="checkbox" name="prof_checks" value="furtividade" {% if "furtividade" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="furtividade"></span>
+                            <span id="furtividade">0</span>
                             <span>Furtividade (Des)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="historia" type="checkbox">
+                        <input id="check_historia" type="checkbox" name="prof_checks" value="historia" {% if "historia" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="historia"></span>
+                            <span id="historia">0</span>
                             <span>História (Int)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="intimidacao" type="checkbox">
+                        <input id="check_intimidacao" type="checkbox" name="prof_checks" value="intimidacao" {% if "intimidacao" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="intimidacao"></span>
+                            <span id="intimidacao">0</span>
                             <span>Intimidação (Car)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="animais" type="checkbox">
+                        <input id="check_intuicao" type="checkbox" name="prof_checks" value="intuicao" {% if "intuicao" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="animais"></span>
+                            <span id="intuicao">0</span>
+                            <span>Intuição (Sab)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="check_investigacao" type="checkbox" name="prof_checks" value="investigacao" {% if "investigacao" in ficha.prof_check %} checked {% endif %}>
+                        <p>
+                            <span id="investigacao">0</span>
+                            <span>Investigação (Int)</span>
+                        </p>
+                    </div>
+                    <div class="pericias">
+                        <input id="check_animais" type="checkbox" name="prof_checks" value="animais" {% if "animais" in ficha.prof_check %} checked {% endif %}>
+                        <p>
+                            <span id="animais">0</span>
                             <span>Lidar com Animais (Sab)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="medicina" type="checkbox">
+                        <input id="check_medicina" type="checkbox" name="prof_checks" value="medicina" {% if "medicina" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="medicina"></span>
+                            <span id="medicina">0</span>
                             <span>Medicina (Sab)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="natureza" type="checkbox">
+                        <input id="check_natureza" type="checkbox" name="prof_checks" value="natureza" {% if "natureza" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="natureza"></span>
+                            <span id="natureza">0</span>
                             <span>Natureza (Int)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="percepcao" type="checkbox">
+                        <input id="check_percepcao" type="checkbox" name="prof_checks" value="percepcao" {% if "percepcao" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="percepcao"></span>
+                            <span id="percepcao">0</span>
                             <span>Percepção (Sab)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="persuasao" type="checkbox">
+                        <input id="check_persuasao" type="checkbox" name="prof_checks" value="persuasao" {% if "persuasao" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="persuasao"></span>
+                            <span id="persuasao">0</span>
                             <span>Persuasão (Car)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="prestidigitacao" type="checkbox">
+                        <input id="check_prestidigitacao" type="checkbox" name="prof_checks" value="prestidigitacao" {% if "prestidigitacao" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="prestidigitacao"></span>
+                            <span id="prestidigitacao">0</span>
                             <span>Prestidigitação (Des)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="religiao" type="checkbox">
+                        <input id="check_religiao" type="checkbox" name="prof_checks" value="religiao" {% if "religiao" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="religiao"></span>
+                            <span id="religiao">0</span>
                             <span>Religião (Int)</span>
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="sobrevivencia" type="checkbox">
+                        <input id="check_sobrevivencia" type="checkbox" name="prof_checks" value="sobrevivencia" {% if "sobrevivencia" in ficha.prof_check %} checked {% endif %}>
                         <p>
-                            <span id="sobrevivencia"></span>
+                            <span id="sobrevivencia">0</span>
                             <span>Sobrevivência (Sab)</span>
                         </p>
                     </div>
@@ -244,16 +289,40 @@
                 <div id="upper_r_main">
                     <div id="ca_container">
                         <h2>Classe de Armadura</h2>
-                        <p id="ca_value"></p>
+                        <p id="ca_value">0</p>
                     </div>
                     <div id="ini_container">
                         <h2>Iniciativa</h2>
-                        <p id="ini_value"></p>
+                        <p id="ini_value">0</p>
                     </div>
                     <div id="des_container">
                         <h2>Deslocamento</h2>
-                        <p id="des_value"></p>
+                        <p id="des_value">0</p>
                     </div>
+                <div id="pv_container">
+                    <label for="max_pv">Pontos de Vida Máximos</label>
+                    <input type="number" id="max_pv" name="max_pv" value="{{ ficha.max_pv|default_if_none:'' }}">
+                    <p id="pv_value">
+                        
+                    </p>
+                    <h2>Pontos de vida</h2>
+                </div>
+                <div id="temp_pv_container">
+                    <p id="temp_pv">
+                        0
+                    </p>
+                    <h2>Pontos de vida temporários</h2>
+                </div>
+                <div id="dpv/sg_container">
+                    <div id="dpv_container">
+                        <input type="text" id="dpv" name="dado_de_vida" value="{{ ficha.dado_de_vida|default_if_none:'' }}">
+                        <h2>Dado de Vida</h2>
+                    </div>
+                    <div id="sg_container">
+                        <p id="sg_value"></p>
+                        <h2>Salvaguarda Morte</h2>
+                    </div>
+                </div>
             </div>
         </main>
         
