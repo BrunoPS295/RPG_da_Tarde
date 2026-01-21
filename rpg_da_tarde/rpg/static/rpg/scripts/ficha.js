@@ -2,7 +2,8 @@ const insp = document.querySelector('[name="inspiracao"]');
 const max_pv = document.querySelector('[name="max_pv"]');
 const dpv = document.querySelector('[name="dado_de_vida"]');
 const exp = document.querySelector('[name="exp"]');
-const prof_bonus = document.getElementById('prof_bonus');
+let prof_bonus = document.getElementById('prof_bonus');
+prof_bonus = parseInt(prof_bonus.value) || 0;
 
 atributos = ['forca','destreza','constituicao','inteligencia','sabedoria','carisma'];
 
@@ -29,6 +30,7 @@ for (let i = 0; i < atributos.length; i++) {
 for (let i = 0; i < atributos.length; i++) {
     const atributo = atributos[i];
     atr[atributo].textContent = Math.floor((brut[atributo].value - 10)/2);
+    salva[atributo].textContent = check_salva[atributo].checked ? Math.floor((brut[atributo].value - 10)/2) + parseInt(prof_bonus.textContent) : Math.floor((brut[atributo].value - 10)/2);
 }
 
 // pericias
@@ -58,13 +60,9 @@ for (let i = 0; i < pericias.length; i++) {
     check_peri[pericia] = document.getElementById('check_' + pericia);
     peri_[pericia] = document.getElementById(pericia);
 
-    peri_[pericia].textContent = Math.floor((brut[relacao[pericia]].value - 10)/2);
+    peri_[pericia].textContent = check_peri[pericia].checked ? Math.floor((brut[relacao[pericia]].value - 10)/2) + prof_bonus : Math.floor((brut[relacao[pericia]].value - 10)/2);
 
 }
-
-peri = document.getElementById('atletismo');
-
-peri.textContent = 2;
 
 
 

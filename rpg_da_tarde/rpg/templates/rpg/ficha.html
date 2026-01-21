@@ -2,8 +2,7 @@
 {% load static %}
 {% block content %}
     <head>
-        <script type="text/javascript" src="{% static 'rpg/scripts/ficha.js' %}?v=1.0" defer>
-        </script> 
+         <script type="text/javascript" src="{% static 'rpg/scripts/ficha.js' %}?v=1.0" defer></script>
     </head>
     
     <form method="post" enctype="multipart/form-data">
@@ -46,7 +45,7 @@
                     <p>Alinhamento</p>
                 </div>
                 <div id="iexperiencia">
-                    <input type="text" name="experiencia" value="{{ ficha.experiencia|default_if_none:'' }}">
+                    <input type="text" name="experiencia" value="{{ ficha.experiencia|default_if_none:'0' }}">
                     <p>Pontos de Experiência</p>
                 </div>
             </div>
@@ -55,54 +54,56 @@
             <div id="upper_main">
                 <div class="atributo">
                     <h2>Força</h2>
-                    <input id="brut_forca" type="number" name="forca" value="{{ ficha.forca|default_if_none:'' }}">
+                    <input id="brut_forca" type="number" name="forca" value="{{ ficha.forca|default_if_none:'0' }}">
                     <p id="atr_forca">
                         0
                     </p>
                 </div>
                 <div class="atributo">
                     <h2>Destreza</h2>
-                    <input id="brut_destreza" type="number" name="destreza" value="{{ ficha.destreza|default_if_none:'' }}">
+                    <input id="brut_destreza" type="number" name="destreza" value="{{ ficha.destreza|default_if_none:'0' }}">
                     <p id="atr_destreza">
                         0
                     </p>
                 </div>
                 <div class="atributo">
                     <h2>Constituição</h2>
-                    <input id="brut_constituicao" type="number" name="constituicao" value="{{ ficha.constituicao|default_if_none:'' }}">
+                    <input id="brut_constituicao" type="number" name="constituicao" value="{{ ficha.constituicao|default_if_none:'0' }}">
                     <p id="atr_constituicao">
                         0
                     </p>
                 </div>
                 <div class="atributo">
                     <h2>Inteligência</h2>
-                    <input id="brut_inteligencia" type="number" name="inteligencia" value="{{ ficha.inteligencia|default_if_none:'' }}">
+                    <input id="brut_inteligencia" type="number" name="inteligencia" value="{{ ficha.inteligencia|default_if_none:'0' }}">
                     <p id="atr_inteligencia">
                         0
                     </p>
                 </div>
                 <div class="atributo">
                     <h2>Sabedoria</h2>
-                    <input id="brut_sabedoria" type="number" name="sabedoria" value="{{ ficha.sabedoria|default_if_none:'' }}">
+                    <input id="brut_sabedoria" type="number" name="sabedoria" value="{{ ficha.sabedoria|default_if_none:'0' }}">
                     <p id="atr_sabedoria">
                         0
                     </p>
                 </div>
                 <div class="atributo">
                     <h2>Carisma</h2>
-                    <input id="brut_carisma" type="number" name="carisma" value="{{ ficha.carisma|default_if_none:'' }}">
+                    <input id="brut_carisma" type="number" name="carisma" value="{{ ficha.carisma|default_if_none:'0' }}">
                     <p id="atr_carisma">
                         0
                     </p>
                 </div>
             <div id="l_main">
                 <div id="prof_container">
-                    <label for="bonus_de_proficiencia"><input type="number" id="prof_bonus" name="bonus_de_proficiencia" value="{{ ficha.bonus_de_proficiencia|default_if_none:'' }}">Proficiência</label>
+                        <p>
+                            <input type="number" id="prof_bonus" name="bonus_de_proficiencia" value="{{ ficha.bonus_de_proficiencia|default_if_none:'0' }}">Proficiência
+                        </p>
                 </div>
                 <div id="inspiracao_container">
-                    <label for="inspiracao">
-                        <input id="inspiracao" type="number" name="inspiracao" value="{{ ficha.inspiracao|default_if_none:'' }}">
-                    Inspiração</label>
+                        <p>
+                            <input id="inspiracao" type="number" name="inspiracao" value="{{ ficha.inspiracao|default_if_none:'0' }}"> Inspiração
+                        </p>
                 </div>
                 <div id="salvaguardas_container">
                     <h2>Salvaguardas</h2>
@@ -172,7 +173,7 @@
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="check_aletismo" type="checkbox" name="prof_checks" value="aletismo" {% if "aletismo" in ficha.prof_check %} checked {% endif %}>
+                        <input id="check_atletismo" type="checkbox" name="prof_checks" value="aletismo" {% if "atletismo" in ficha.prof_check %} checked {% endif %}>
                         <p>
                             <span id="atletismo">0</span>
                             <span>Atletismo (For)</span>
@@ -301,7 +302,7 @@
                     </div>
                 <div id="pv_container">
                     <label for="max_pv">Pontos de Vida Máximos</label>
-                    <input type="number" id="max_pv" name="max_pv" value="{{ ficha.max_pv|default_if_none:'' }}">
+                    <input type="number" id="max_pv" name="max_pv" value="{{ ficha.max_pv|default_if_none:'0' }}">
                     <p id="pv_value">
                         
                     </p>
@@ -315,7 +316,7 @@
                 </div>
                 <div id="dpv/sg_container">
                     <div id="dpv_container">
-                        <input type="text" id="dpv" name="dado_de_vida" value="{{ ficha.dado_de_vida|default_if_none:'' }}">
+                        <input type="text" id="dpv" name="dado_de_vida" value="{{ ficha.dado_de_vida|default_if_none:'0' }}">
                         <h2>Dado de Vida</h2>
                     </div>
                     <div id="sg_container">

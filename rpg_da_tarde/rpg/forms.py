@@ -12,9 +12,12 @@ class FichaForm(forms.ModelForm):
             'antecedente', 
             'raca', 
             'alinhamento', 
+            'experiencia',
 
+            'inspiracao',    
             'max_pv',
             'dado_de_vida',
+            'bonus_de_proficiencia',
 
             'forca', 
             'destreza',
