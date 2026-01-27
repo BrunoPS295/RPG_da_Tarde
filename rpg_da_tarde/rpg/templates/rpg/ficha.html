@@ -2,10 +2,10 @@
 {% load static %}
 {% block content %}
     <head>
-         <script type="text/javascript" src="{% static 'rpg/scripts/ficha.js' %}?v=1.0" defer></script>
+         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.2" defer></script>
     </head>
     
-    <form method="post" enctype="multipart/form-data">
+    <form id="form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.errors}}
         {%if ficha.rpg == none%}
@@ -45,7 +45,7 @@
                     <p>Alinhamento</p>
                 </div>
                 <div id="iexperiencia">
-                    <input type="text" name="experiencia" value="{{ ficha.experiencia|default_if_none:'0' }}">
+                    <input type="text" name="experiencia" value="{{ ficha.experiencia|default_if_none:'' }}">
                     <p>Pontos de Experiência</p>
                 </div>
             </div>
@@ -298,11 +298,16 @@
                     </div>
                     <div id="des_container">
                         <h2>Deslocamento</h2>
-                        <p id="des_value">0</p>
+                        <p id="desl_value">0</p>
                     </div>
+                </div>
+                
                 <div id="pv_container">
-                    <label for="max_pv">Pontos de Vida Máximos</label>
-                    <input type="number" id="max_pv" name="max_pv" value="{{ ficha.max_pv|default_if_none:'0' }}">
+                    <input type="number" name="i_pv" style="display:none;" value="{{ ficha.i_pv|default_if_none:'0' }}">
+                    <p>
+                        <span>Pontos de vida máximos: </span>
+                        <span name="max_pv">{{ficha.max_pv}}</span>
+                    </p>
                     <p id="pv_value">
                         
                     </p>

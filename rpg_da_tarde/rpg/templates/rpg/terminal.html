@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+    <head>
+        <script type="module" src="{% static 'rpg/scripts/rolls.js' %}?v=1.0" defer></script>
+    </head>
+    <div id="output_container">
+        <p id="output"></p>
+    </div>
+    <form action="">
+        <p><input type="text" id="input"> <input type="submit"></p>
+    </form>
+    
+{% endblock %}
