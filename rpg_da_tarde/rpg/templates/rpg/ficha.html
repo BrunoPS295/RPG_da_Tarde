@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <head>
-         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.2" defer></script>
+         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.5" defer></script>
     </head>
     
     <form id="form" method="post" enctype="multipart/form-data">
@@ -303,10 +303,10 @@
                 </div>
                 
                 <div id="pv_container">
-                    <input type="number" name="i_pv" style="display:none;" value="{{ ficha.i_pv|default_if_none:'0' }}">
+                    <input type="number" readonly style="display:none;" id="i_pv" name="i_pv"  value="{{ ficha.i_pv|default_if_none:'0' }}">
                     <p>
                         <span>Pontos de vida máximos: </span>
-                        <span name="max_pv">{{ficha.max_pv}}</span>
+                        <input type="number" name="max_pv" id="max_pv" readonly value="{{ ficha.max_pv|default_if_none:'0' }}">
                     </p>
                     <p id="pv_value">
                         

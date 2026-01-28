@@ -16,6 +16,7 @@ class FichaForm(forms.ModelForm):
 
             'inspiracao',    
             'max_pv',
+            'i_pv',
             'dado_de_vida',
             'bonus_de_proficiencia',
 

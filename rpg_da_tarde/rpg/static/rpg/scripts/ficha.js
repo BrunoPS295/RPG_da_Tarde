@@ -1,11 +1,11 @@
 import { rolls } from './rolls.js';
 
 const insp = document.querySelector('[name="inspiracao"]');
-const i_pv = document.querySelector('[name="i_pv"]')
+const input_i_pv = document.querySelector('[name="i_pv"]')
 const max_pv = document.querySelector('[name="max_pv"]');
 const dpv = document.querySelector('[name="dado_de_vida"]');
 const exp = document.querySelector('[name="experiencia"]');
-let exp_value = parseInt(exp.textContent) || 0;
+let exp_value = parseInt(exp.value) || 0;
 
 const ca_value = document.getElementById("ca_value");
 const ini_value = document.getElementById("ini_value");
@@ -114,18 +114,43 @@ let deslocamento = 9;
 desl_value.textContent = deslocamento;
 
 
+//Calculo vida
+//------------------------------------------
+// Indice
+let i_pv = parseInt(input_i_pv.value);
+// vida atual / total
+let pv = parseInt(max_pv.value);
+// modificador de Constituição
+let consti = parseInt(atr['constituicao'].textContent);
 
-
-//pv maximo
-let dpv_value = rolls(dpv.value);
-
-if (parseInt(i_pv.value) != nivel){
-    max_pv.textContent += (parseInt(dpv_value) + parseInt(atr['constituicao'].textContent));
-    i_pv.value = parseInt(i_pv.value) + 1
-    console.log("indice de vida: ",i_pv.value);
-    //form.requestSubmit()
+while (i_pv != nivel){
+    if (nivel == 1){
+        if (dpv.value.includes("d")){
+            let max_rollpv = dpv.value.toLowerCase().split('d')
+            pv += (parseInt(max_rollpv[1]) * parseInt(max_rollpv[0])) + consti
+            console.log("max_roll: ", max_rollpv)
+        }
+        else{
+            pv += parseInt(dpv.value)
+        }
+        console.log(`Nível ${nivel}: pv: ${pv} dpv value: ${dpv.value} const: ${consti}`);
+    }
+    else{
+        pv += parseInt(rolls(dpv.value))
+    }
+    i_pv ++
+    console.log(i_pv)
+    if (i_pv == nivel){
+        max_pv.value = pv
+        input_i_pv.value = i_pv 
+        form.requestSubmit();
+    }
 }
 
 
 
-console.log("Script carregado com sucesso!1.2");
+
+
+
+
+console.log("Script carregado com sucesso!1.5");

@@ -2,8 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
     if (form) {
         form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const input = document.getElementById('input').value;
+            const input = document.getElementById('input');
             const output = document.getElementById('output_container');
             let resultado = rolls(input);
             console.log("ress: ", resultado);
@@ -32,7 +31,7 @@ export function rolls(input){
     // Todos os valores em lista do input
     let res = [];
     // Serve só para juntar no caso de duas variaveis fazerem parte de uma "partes"
-    let op = 0
+    
     // Ja diz o nome
     let sub_partes = []
 
@@ -59,6 +58,7 @@ export function rolls(input){
 
     for (let i = 0; i < partes.length; i++){
         console.log("Parte: ", partes[i])
+        let op = 0
 
         // Soma
         if (partes[i].includes("+")){
@@ -93,6 +93,7 @@ export function rolls(input){
             for(let j = 0; j < sub_partes.length; j++){
                 dice = sub_partes[j].split("d")
                 console.log("dice",dice, dice.length)
+                op ++
                 op *= parseInt(rolador(dice))
                 console.log("op: ",op)
             }
@@ -106,6 +107,7 @@ export function rolls(input){
             for(let j = 0; j < sub_partes.length; j++){
                 dice = sub_partes[j].split("d")
                 console.log("dice",dice, dice.length)
+                op ++
                 op /= parseInt(rolador(dice))
                 console.log("op: ",op)
             }
