@@ -2,9 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
     if (form) {
         form.addEventListener('submit', function(event) {
+            event.preventDefault();
             const input = document.getElementById('input');
             const output = document.getElementById('output_container');
-            let resultado = rolls(input);
+            let resultado = rolls(input.value);
             console.log("ress: ", resultado);
             
             const separator = document.createElement('p');
@@ -21,9 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Tem q adicionar aql paranaue de equação com 
+//console.log(rolls("(2 -- 4) * 2"))
 
 export function rolls(input){
+    input = input.toLowerCase().trim();
     // valores antes e depois do d
     let dice = []
     // Retorno do rolador"
@@ -31,34 +33,40 @@ export function rolls(input){
     // Todos os valores em lista do input
     let res = [];
     // Serve só para juntar no caso de duas variaveis fazerem parte de uma "partes"
-    
+    let op = 0
     // Ja diz o nome
     let sub_partes = []
-
+    // Partes da equação
     let partes = input.split(',');
 
-    input = input.toLowerCase(); 
-
     function rolador(dice){
-        rolada = 0
-        if (dice.length == 2){
-            for (let ii = 0; ii < dice[0]; ii++){
-                let calc = Math.floor(Math.random() * dice[1] + 1)
-                rolada += calc 
-                console.log("Atual rolada: ", rolada)
-                console.log("Face: ", calc)
+        rolada = 0;
+        if (Array.isArray(dice) && dice.length === 2){
+            for (let ii = 0; ii < count; ii++){
+                let calc = Math.floor(Math.random() * faces) + 1;
+                rolada += calc;
+                console.log("Atual rolada: ", rolada);
+                console.log("Face: ", calc);
             }
-        }
-        else{
-            rolada = dice[0]
-            console.log("resultado: ",rolada)
+        } else {
+            const valor = Array.isArray(dice) ? dice[0] : dice;
+            rolada = parseInt(val);
+            console.log("resultado: ", rolada);
         }
         return rolada;
     }    
 
     for (let i = 0; i < partes.length; i++){
+        while (partes[i].includes('(')) {
+        op = 0
+        partes[i] = partes[i].replace(/\(([^()]+)\)/g, (match, input) => {
+            console.log(match, input)
+            return rolls(input);
+        });
+        }
+
         console.log("Parte: ", partes[i])
-        let op = 0
+        op = 0
 
         // Soma
         if (partes[i].includes("+")){
@@ -67,20 +75,29 @@ export function rolls(input){
             for(let j = 0; j < sub_partes.length; j++){
                 dice = sub_partes[j].split("d")
                 console.log("dice",dice, dice.length)
-                op += parseInt(rolador(dice))
+                if (j == 0){
+                    op = parseInt(rolador(dice))
+                }else{
+                    op += parseInt(rolador(dice))
+                }
+                
                 console.log("op: ",op)
             }
             res[i] = op
         }
 
         // Subtração
-        else if (partes[i].includes("-")){
-            sub_partes = partes[i].split("-")
+        else if (partes[i].includes("--")){
+            sub_partes = partes[i].split("--")
             console.log("sub_partes: ",sub_partes)
             for(let j = 0; j < sub_partes.length; j++){
                 dice = sub_partes[j].split("d")
                 console.log("dice",dice, dice.length)
-                op -= parseInt(rolador(dice))
+                if (j == 0){
+                    op = parseFloat(rolador(dice))
+                }else{
+                    op -= parseFloat(rolador(dice))
+                }
                 console.log("op: ",op)
             }
             res[i] = op
@@ -93,8 +110,11 @@ export function rolls(input){
             for(let j = 0; j < sub_partes.length; j++){
                 dice = sub_partes[j].split("d")
                 console.log("dice",dice, dice.length)
-                op ++
-                op *= parseInt(rolador(dice))
+                if (j == 0){
+                    op = parseFloat(rolador(dice))
+                }else{
+                    op *= parseFloat(rolador(dice))
+                }
                 console.log("op: ",op)
             }
             res[i] = op
@@ -107,8 +127,11 @@ export function rolls(input){
             for(let j = 0; j < sub_partes.length; j++){
                 dice = sub_partes[j].split("d")
                 console.log("dice",dice, dice.length)
-                op ++
-                op /= parseInt(rolador(dice))
+                if (j == 0){
+                    op = parseFloat(rolador(dice))
+                }else{
+                    op /= parseFloat(rolador(dice))
+                }
                 console.log("op: ",op)
             }
             res[i] = op
@@ -116,41 +139,23 @@ export function rolls(input){
 
         // Vantagem
         else if (partes[i].includes("!")){
-            let cont = 0;
-            for (let letra of dice) {
-                if (letra === '!') contador++;
-                dice.slice(cont)
-            }
-            dice = partes[i].split("d")
-            for(let j = -1; j < cont; j++){
-                dice[0] = dice[0].slice(1)
-                console.log("dice",dice)
-                if (op > rolador(dice)){
-                    res[i] = op
-                }
-                else{
-                    op = rolador(dice)
-                    res[i] = op
-                }
-                console.log("op: ",op)
-            }
+            const expr = partes[i].replace(/!/g, '');
+            dice = expr.split("d");
+            // roll two times and take the highest
+            const first = rolador(dice.slice());
+            const second = rolador(dice.slice());
+            res[i] = Math.max(first, second);
+            console.log("vantagem - rolls:", first, second, "->", res[i]);
         }
 
         // Desvantagem
         else if (partes[i].includes("_")){
-            dice = partes[i].split("d")
-            for(let j = 0; j !==2; j++){
-                dice[0] = dice[0].slice(1)
-                console.log("dice",dice)
-                if (op < rolador(dice)  && op != 0 ){
-                    res[i] = op
-                }
-                else{
-                    op = rolador(dice)
-                    res[i] = op
-                }
-                console.log("op: ",op)
-            }
+            const expr = partes[i].replace(/_/g, '');
+            dice = expr.split("d");
+            const first = rolador(dice.slice());
+            const second = rolador(dice.slice());
+            res[i] = Math.min(first, second);
+            console.log("desvantagem - rolls:", first, second, "->", res[i]);
         }
 
         else if (partes[i].includes("d")){
