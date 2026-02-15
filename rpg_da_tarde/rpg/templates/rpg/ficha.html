@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <head>
-         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.5" defer></script>
+         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.6" defer> </script>
     </head>
     
     <form id="form" method="post" enctype="multipart/form-data">
@@ -94,15 +94,16 @@
                         0
                     </p>
                 </div>
+            </div>
             <div id="l_main">
                 <div id="prof_container">
                         <p>
-                            <input type="number" id="prof_bonus" name="bonus_de_proficiencia" value="{{ ficha.bonus_de_proficiencia|default_if_none:'0' }}">Proficiência
+                            <input type="number" id="prof_bonus" name="bonus_de_proficiencia" value="{{ ficha.bonus_de_proficiencia|default_if_none:'0' }}" readonly >Proficiência
                         </p>
                 </div>
                 <div id="inspiracao_container">
                         <p>
-                            <input id="inspiracao" type="number" name="inspiracao" value="{{ ficha.inspiracao|default_if_none:'0' }}"> Inspiração
+                            <input id="inspiracao" type="number" name="inspiracao" value="{{ ficha.inspiracao|default_if_none:'0' }}" readonly> Inspiração
                         </p>
                 </div>
                 <div id="salvaguardas_container">
@@ -309,13 +310,13 @@
                         <input type="number" name="max_pv" id="max_pv" readonly value="{{ ficha.max_pv|default_if_none:'0' }}">
                     </p>
                     <p id="pv_value">
-                        
+                        {{ficha.atual_pv}}
                     </p>
                     <h2>Pontos de vida</h2>
                 </div>
                 <div id="temp_pv_container">
                     <p id="temp_pv">
-                        0
+                        <input type="number" name="temp_pv" value="{{ ficha.temp_pv|default_if_none:'0' }}" readonly>
                     </p>
                     <h2>Pontos de vida temporários</h2>
                 </div>
@@ -325,15 +326,71 @@
                         <h2>Dado de Vida</h2>
                     </div>
                     <div id="sg_container">
-                        <p id="sg_value"></p>
                         <h2>Salvaguarda Morte</h2>
+                        
+                        <input type="hidden" name="sucessos_morte" id="input_sucessos" value="{{ ficha.sucessos_morte|default:0 }}">
+                        <input type="hidden" name="falhas_morte" id="input_falhas" value="{{ ficha.falhas_morte|default:0 }}">
+                        <input type="hidden" name="morte" id="input_morte_status" value="{{ ficha.morte }}">
+
+                        <p>Sucessos: 
+                            <input class="check-sucesso" type="checkbox"> 
+                            <input class="check-sucesso" type="checkbox"> 
+                            <input class="check-sucesso" type="checkbox">
+                        </p>
+
+                        <p>Falhas: 
+                            <input class="check-falha" type="checkbox"> 
+                            <input class="check-falha" type="checkbox"> 
+                            <input class="check-falha" type="checkbox">
+                        </p>
                     </div>
                 </div>
             </div>
         </main>
-        
-        
-
+        <button type="submit">Salvar</button>
+    </form>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div id="ataques">
+                {% for ataque in ataques %}
+                    <div class="ataque">
+                        <table>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Acerto</th>
+                                <th>Dano</th>
+                                <th>Resultado acerto</th>
+                                <th>Resultado dano</th>
+                                <th>Ação</th>
+                            </tr>
+                            <tr>
+                                <td id="nome{{ataque.id}}">{{ ataque.nome_ataque }}</td>
+                                <td id="acerto{{ataque.id}}">{{ ataque.acerto_ataque }}</td>
+                                <td id="dano{{ataque.id}}">{{ ataque.dano_ataque }}</td>
+                                <td id="acerto_res{{ataque.id}}">#</td>
+                                <td id="dano_res{{ataque.id}}">#</td>
+                                <td><button type="button" class="btn_ataque" data-id="{{ ataque.id }}" data-ataque="{{ ataque.id }}">Usar</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                {% endfor %}
+                <div id="add_ataque">
+                    <form>
+                        <p>
+                            <input type="hidden" name="ficha" value="{{ ficha.id }}">
+                            <span><input type="text" name="nome_ataque" placeholder="Nome da habilidade"></span>
+                            <span><input type="text" name="acerto_ataque" placeholder="Acerto do ataque"></span>
+                            <span><input type="text" name="dano_ataque" placeholder="Dano do ataque"></span>
+                            <span><button type="submit">Adicionar</button></span>
+                        </p>
+                    </form>
+                </div>
+            </div>
+    </form>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1>Anotações</h1>
+        <textarea value="{{ ficha.textao }}" name="textao" id="textao">{{ ficha.textao }}</textarea>
         <button type="submit">Salvar</button>
     </form>
 {% endblock %}

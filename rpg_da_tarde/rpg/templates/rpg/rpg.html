@@ -3,6 +3,17 @@
     <h1>Fichas</h1>
     {% for ficha in fichas %}
         <p><a href="ficha/{{ ficha.id }}/">{{ ficha.nome }}</a></p>
+        
+    {% endfor %}
+    {% for rpg in rpg %}
+    {% if request.user == rpg.mestre %}
+            <p>
+                <div class="mestre-badge">Você é o Mestre do {{ rpg.rpg_nome }}</div>
+                <a href="{% url 'painel_gm' rpg.id %}" class="btn-gm">
+                    ACESSAR PAINEL DO MESTRE
+                </a>
+            </p>
+        {% endif %}
     {% endfor %}
     <button><a href="{% url 'criar_ficha'%}">Criar Ficha</a></button>
 {% endblock %}

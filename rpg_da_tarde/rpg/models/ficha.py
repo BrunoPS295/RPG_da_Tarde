@@ -13,6 +13,8 @@ class Ficha(models.Model):
 
     inspiracao = models.IntegerField(default=0, blank=True, null=True)
     max_pv = models.IntegerField(default=0, blank=True, null=True)
+    temp_pv = models.IntegerField(default=0, blank=True, null=True)
+    atual_pv = models.IntegerField(default= None, blank=True, null=True)
     i_pv = models.IntegerField(default=0, blank=True, null=True)
     dado_de_vida = models.CharField(max_length=20, default='0', blank=True, null=True)
     bonus_de_proficiencia = models.IntegerField(default=0, blank=True, null=True)
@@ -26,5 +28,16 @@ class Ficha(models.Model):
 
     prof_check = models.JSONField(default=list, blank=True)
 
+    morte = models.BooleanField(default=False)
+
+    textao = models.TextField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if self.atual_pv is None or self.atual_pv > self.max_pv + self.temp_pv or self.atual_pv <= 0:
+            self.atual_pv = (self.max_pv or -1) + (self.temp_pv or -1)
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return self.nome
+        if self.nome != None and self.nome != "":
+            return self.nome
+        return f"Ficha de {self.jogador.username}"

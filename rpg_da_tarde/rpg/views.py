@@ -4,16 +4,21 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 from .forms import FichaForm
+from .forms import gm_fichaForm
+from .forms import AtaqueForm
 from .models import RPGmodel
 from .models import Ficha
 
 # Create your views here.
 @login_required
 def selecionar_fichas(request):
+    rpg = RPGmodel.objects.filter(
+        Q(mestre=request.user) | Q(jogadores=request.user)
+    ).distinct()
     fichas = Ficha.objects.filter(
-        Q(jogador=request.user) | Q(rpg__mestre=request.user)
+        Q(jogador=request.user, morte=False) | Q(rpg__mestre=request.user, morte=False)
     )
-    context = {'fichas': fichas}
+    context = {'fichas': fichas, 'rpg': rpg}
     return render(request, 'rpg/rpg.html', context)
 
 def criar_ficha(request):
@@ -32,18 +37,51 @@ def criar_ficha(request):
 
 def rpg(request, id):
     ficha = get_object_or_404(Ficha, id=id)
+    ataques = ficha.ataques_set.all().order_by('id')
+    if ficha.morte:
+        return render(request, 'rpg/morte.html')
     if request.method == 'POST':
         form = FichaForm(request.POST, instance=ficha, user=request.user)
+        form_ataque = AtaqueForm(request.POST)
         prof_checks = request.POST.getlist('prof_checks')
-        if form.is_valid():
+        if form.is_valid() and form_ataque.is_valid():
             form.save()
             ficha.prof_check = prof_checks
             ficha.save()
+            form_ataque.save()
             return redirect('rpg', id=ficha.id)
     else:
         form = FichaForm(instance=ficha, user=request.user)
-    context = {'form': form, 'ficha': ficha}
+    context = {'form': form, 'ataques': ataques, 'ficha': ficha}
     return render(request, 'rpg/ficha.html', context)
 
 def terminal(request):
     return render(request, 'rpg/terminal.html')
+
+def painel_gm(request, id):
+    rpg = get_object_or_404(RPGmodel, id=id)
+    if request.user != rpg.mestre:
+        return HttpResponse("Acesso negado: Você não é o mestre deste RPG.")
+    
+    ficha = None
+    form = None
+
+    if request.method == 'POST':
+        ficha_id = request.POST.get('ficha_id')
+        if not ficha_id:
+            return HttpResponse("ID da ficha não fornecido.", status=400)
+        ficha = get_object_or_404(Ficha, id=ficha_id, rpg=rpg, morte=False)
+        form = gm_fichaForm(request.POST, instance=ficha, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('painel_gm', id=rpg.id)
+        else:
+            print(form.errors)
+
+    context = {
+        'rpg': rpg,
+        'ficha': ficha,
+        'fichas': Ficha.objects.filter(rpg=rpg).order_by('id'),
+        'form': form,
+    }
+    return render(request, 'rpg/painel_gm.html', context)

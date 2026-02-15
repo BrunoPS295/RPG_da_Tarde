@@ -1,4 +1,45 @@
 {%extends "base/base.html"%}
-{%block content%}
-    <h1>Painel do Mestre: {{ rpgs.nome }}</h1>
-{%endblock%}
+{% load static %}
+{% block content %}
+    <head>
+        <script type="module" src="{% static 'rpg/scripts/gm.js' %}?v=1.1" defer></script>
+    </head>
+    <h1>Painel do Mestre - {{ rpg.rpg_nome }}</h1>
+{%for ficha in fichas%}
+    <div class="ficha-container"> <h1>{{ ficha.jogador }} - {{ ficha.nome }}</h1>
+        <div id="atributos">
+            <form method="post" action="{% url 'painel_gm' rpg.id %}" class="form-ficha">
+                {% csrf_token %}
+                <input type="hidden" name="ficha_id" value="{{ ficha.id }}">
+                
+                <p>
+                    <input type="text" name="experiencia" value="{{ ficha.experiencia|default_if_none:'' }}">
+                    Pontos de Experiência
+                </p>
+                <p>
+                    <input type="number" name="inspiracao" value="{{ ficha.inspiracao|default_if_none:'0' }}"> Inspiração
+                </p>
+                
+                <div class="pv-section">
+                    <p class="max-pv-text" data-max="{{ ficha.max_pv }}">Vida maxima: {{ficha.max_pv}}</p>
+                    
+                    <div class="dado-vida-val" style="display: none;">{{ficha.dado_de_vida}}</div>
+                    
+                    <p><input type="number" name="temp_pv" value="{{ ficha.temp_pv|default_if_none:'0' }}"> PV Temporário</p>
+                    
+                    <p><input type="number" name="atual_pv" class="input-atual-pv" value="{{ ficha.atual_pv }}"> PV Atual</p>
+                </div>
+
+                <p>
+                    <button type="button" class="btn-descanso-longo">Descanso longo</button>
+                    <button type="button" class="btn-descanso-curto">Descanso curto</button>
+                </p>
+                <button type="submit">Salvar</button>
+            </form>
+        </div>
+        <a href="{% url 'rpg' ficha.id %}">{{ ficha.nome }}</a>
+    </div>
+{%endfor%}
+        <h1>Rascunho</h1>
+        <textarea value="{{ ficha.textao }}" name="textao" id="textao">{{ ficha.textao }}</textarea>
+{% endblock %}

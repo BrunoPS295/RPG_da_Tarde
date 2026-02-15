@@ -12,6 +12,9 @@ const ini_value = document.getElementById("ini_value");
 const desl_value = document.getElementById("desl_value");
 const form = document.getElementById("form")
 
+const sucesso = document.querySelectorAll('.s');
+const falha = document.querySelectorAll('.f');
+
 let prof_bonus_element = document.getElementById('prof_bonus');
 let prof_bonus_value = parseInt(prof_bonus_element.value) || 0;
 
@@ -50,9 +53,10 @@ const tabelaXP = [
 ];
 
 // Calculo nivel
+let nivel = 1;
 for (let i = 0; i < tabelaXP.length; i++) {
     if (exp_value >= tabelaXP[i]) {
-        var nivel = i + 1;
+        nivel = i + 1;
     }
 }
 console.log("Nível do personagem: ", nivel);
@@ -123,33 +127,87 @@ let pv = parseInt(max_pv.value);
 // modificador de Constituição
 let consti = parseInt(atr['constituicao'].textContent);
 
-while (i_pv != nivel){
-    if (nivel == 1){
+while (i_pv < nivel){
+    if (i_pv === 0){
+        // Primeiro nível: máximo de dado de vida
         if (dpv.value.includes("d")){
             let max_rollpv = dpv.value.toLowerCase().split('d')
             pv += (parseInt(max_rollpv[1]) * parseInt(max_rollpv[0])) + consti
             console.log("max_roll: ", max_rollpv)
         }
         else{
-            pv += parseInt(dpv.value)
+            pv += parseInt(dpv.value) + consti
         }
-        console.log(`Nível ${nivel}: pv: ${pv} dpv value: ${dpv.value} const: ${consti}`);
     }
     else{
-        pv += parseInt(rolls(dpv.value))
+        let rollResult = rolls(dpv.value);
+        pv += parseInt(rollResult[0]) + consti;
     }
-    i_pv ++
-    console.log(i_pv)
-    if (i_pv == nivel){
-        max_pv.value = pv
-        input_i_pv.value = i_pv 
+    i_pv++
+    console.log(`Nível ${i_pv}: PV total: ${pv}`);
+}
+
+if (pv !== parseInt(max_pv.value) || parseInt(input_i_pv.value) !== i_pv){
+    max_pv.value = pv
+    input_i_pv.value = i_pv 
+    form.requestSubmit();
+}
+
+// salva morte
+
+// --- Lógica de Salvaguarda contra Morte ---
+
+// 1. Pega os elementos
+const checksSucesso = document.querySelectorAll('.check-sucesso');
+const checksFalha = document.querySelectorAll('.check-falha');
+const inputSucessos = document.getElementById('input_sucessos');
+const inputFalhas = document.getElementById('input_falhas');
+const inputMorteStatus = document.getElementById('input_morte_status');
+
+// 2. Função que recalcula tudo (não precisa somar/subtrair, ela conta do zero)
+function calcularMorte() {
+    // Conta quantos sucessos estão marcados
+    const qtdSucessos = document.querySelectorAll('.check-sucesso:checked').length;
+    // Conta quantas falhas estão marcadas
+    const qtdFalhas = document.querySelectorAll('.check-falha:checked').length;
+
+    // Atualiza os inputs pro Django salvar
+    if(inputSucessos) inputSucessos.value = qtdSucessos;
+    if(inputFalhas) inputFalhas.value = qtdFalhas;
+
+    console.log(`Sucessos: ${qtdSucessos} | Falhas: ${qtdFalhas}`);
+
+    // Regra da Morte (3 falhas)
+    if (qtdFalhas >= 3) {
+        if(inputMorteStatus) inputMorteStatus.value = "True";
+        console.log("Status: Morto");
         form.requestSubmit();
+    } else {
+        if(inputMorteStatus) inputMorteStatus.value = "False";
     }
 }
 
+// 3. Adiciona o evento de clique em todas as caixinhas
+checksSucesso.forEach(box => box.addEventListener('change', calcularMorte));
+checksFalha.forEach(box => box.addEventListener('change', calcularMorte));
 
+// Habilidades
+let btn_ataque = document.querySelectorAll(".btn_ataque");
+btn_ataque.forEach(btn => {
+    btn.addEventListener('click', () => ataque(btn));
+});
 
+function ataque(btn_ataque){
+    let ataque = btn_ataque.getAttribute('data-id');
+    console.log("data-ataque: ", ataque, "acerto" + ataque, "dano" + ataque)
+    let acerto = document.getElementById("acerto" + ataque);
+    let dano = document.getElementById("dano" + ataque);
 
+    let acerto_res = document.getElementById("acerto_res" + ataque);
+    let dano_res = document.getElementById("dano_res" + ataque);
+    acerto_res.textContent = rolls(acerto.textContent);
+    dano_res.textContent = rolls(dano.textContent);
+}
 
 
 
