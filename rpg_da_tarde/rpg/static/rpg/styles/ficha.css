@@ -1,0 +1,404 @@
+@charset 'UTF-8';
+
+:root {
+    --paper-color: #ffffff;
+    --border-color: #333;
+    --header-font: 'Cinzel', serif;
+    --body-font: 'Roboto', sans-serif;
+    --accent-color: #a42e2e;
+}
+
+body {
+    background-color: #e0e0e0;
+    font-family: var(--body-font);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.form {
+    background-color: var(--paper-color);
+    width: 100%;
+    max-width: 1000px;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border: 1px solid #ccc;
+    margin-bottom: 20px; 
+}
+
+header {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    align-items: flex-end;
+}
+
+#sel_rpg {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    margin-bottom: 25px;
+}
+
+#l_header {
+    width: 35%;
+    height: 112px;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 10px;
+    background: white;
+}
+
+#l_header input {
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+}
+
+#r_header {
+    width: 65%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 10px;
+    background: white;
+}
+
+#r_header div {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#r_header input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+    width: 100%;
+    padding: 5px;
+}
+
+#r_header p, #l_header p {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #666;
+    margin: 2px 0 0 0;
+    letter-spacing: 1px;
+}
+
+#upper_main {
+    display: flex;
+    justify-content: space-between;
+    background-color: #eee;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #999;
+    margin-bottom: 25px;
+    gap: 10px;
+}
+
+.atributo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+.atributo h2 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin: 0 0 5px 0;
+    font-weight: bold;
+}
+
+.atributo p {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.atributo input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    background: white;
+    position: absolute;
+    bottom: -15px;
+    height: 25px;
+    z-index: 2;
+}
+
+
+main {
+    display: flex;
+    flex-direction: column; 
+}
+
+#l_main, #r_main {}
+
+main {
+    display: grid;
+    grid-template-areas: 
+        "top top"
+        "left right";
+    grid-template-columns: 1fr 1.2fr;
+    gap: 20px;
+}
+
+#upper_main { grid-area: top; }
+#l_main { grid-area: left; }
+#r_main { grid-area: right; }
+
+
+#prof_container, #inspiracao_container {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+#prof_container input, #inspiracao_container input {
+    width: 40px;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    height: 40px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+#salvaguardas_container, #pericias_container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#salvaguardas_container h2, #pericias_container h2 {
+    font-size: 1rem;
+    border-bottom: 1px solid #000;
+    margin-top: 0;
+}
+
+.salvaguardas, .pericias {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3px;
+    font-size: 0.9rem;
+}
+
+.salvaguardas input[type="checkbox"], .pericias input[type="checkbox"] {
+    margin-right: 5px;
+    accent-color: var(--border-color);
+}
+
+.salvaguardas p, .pericias p {
+    margin: 0;
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+}
+
+.salvaguardas span:first-child, .pericias span:first-child {
+    min-width: 25px;
+    text-align: center;
+    margin-right: 5px;
+    color: #666;
+}
+
+#upper_r_main {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#upper_r_main div {
+    border: 2px solid var(--border-color);
+    width: 33%;
+    text-align: center;
+    padding: 10px 5px;
+    position: relative;
+    border-radius: 10px 10px 25px 25px; 
+}
+
+#upper_r_main h2 {
+    font-size: 0.7rem;
+    margin: 0;
+    text-transform: uppercase;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--paper-color);
+    padding: 0 5px;
+    width: max-content;
+}
+
+#upper_r_main p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 5px 0 0 0;
+}
+
+#pv_container, #temp_pv_container {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+#max_pv {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    width: 50px;
+    text-align: center;
+}
+
+#pv_value {
+    font-size: 2rem;
+    margin: 10px 0;
+}
+
+#dpv\/sg_container {
+    display: flex;
+    gap: 10px;
+}
+
+#dpv_container, #sg_container {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    width: 50%;
+    border-radius: 10px;
+}
+
+#sg_container h2, #dpv_container h2 {
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 0;
+    text-transform: uppercase;
+}
+
+#sg_container p {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0;
+    font-size: 0.8rem;
+}
+
+form:nth-of-type(2), form:nth-of-type(3) {
+    background-color: var(--paper-color);
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+#ataques {
+    width: 100%;
+}
+
+.ataque table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    background: #fff;
+}
+
+.ataque th {
+    background-color: #ddd;
+    text-align: center;
+    padding: 8px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.ataque td {
+    border-bottom: 1px solid #eee;
+    padding: 8px;
+    text-align: center;
+}
+
+.btn_ataque, #btn_ataque_add, .btn_excluir_ataque {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn_ataque, #btn_ataque_add:hover, .btn_excluir_ataque:hover {
+    background-color: #822222;
+}
+
+#add_ataque form p {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+#add_ataque input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea#textao {
+    width: 100%;
+    min-height: 200px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    line-height: 32px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+}
+
+.form > button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: inherit;
+    border: 2px solid black;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.form > button[type="submit"]:hover {
+    color: white;
+    background-color: black;
+}

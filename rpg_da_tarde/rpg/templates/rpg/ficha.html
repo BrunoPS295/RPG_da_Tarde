@@ -3,50 +3,49 @@
 {% block content %}
     <head>
          <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.6" defer> </script>
+         <link rel="stylesheet" href="{% static 'rpg/styles/ficha.css' %}">
     </head>
     
-    <form id="form" method="post" enctype="multipart/form-data">
+    <form class="form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.errors}}
-        {%if ficha.rpg == none%}
-            <select name="rpg">
+        
+        <header>
+            <br>
+            <div id="l_header">
+                <select name="rpg" id="sel_rpg">
                     <option value="">Selecione um RPG</option>
                     {% for choice in form.rpg.field.queryset %}
                         <option value="{{ choice.pk }}">{{ choice.rpg_nome }}</option>
                     {% endfor %}
-            </select>
-        {% else %}
-            <input type="hidden" name="rpg" value="{{ ficha.rpg.id }}">
-        {% endif %}  
-        <header>
-            <div id="l_header">
+                </select>
                 <input type="text" name="nome" value="{{ ficha.nome|default_if_none:'' }}">
-                <p>Nome do personagem</p>
+                <p>Nome do personagem:</p>
             </div>
             <div id="r_header">
                 <div id="iclasse">
                     <input type="text" name="classe" value="{{ ficha.classe|default_if_none:'' }}">
-                    <p>Classe e Nível</p>
+                    <p>Classe e Nível:</p>
                 </div>
                 <div id="iantecedente">
                     <input type="text" name="antecedente" value="{{ ficha.antecedente|default_if_none:'' }}">
-                    <p>Antecedentes</p>
+                    <p>Antecedentes:</p>
                 </div>
                 <div id="ijogador">
                     <p>{{ ficha.jogador }}</p>
-                    <p>Nome do Jogador</p>
+                    <p>Nome do Jogador:</p>
                 </div>
                 <div id="iraca">
                     <input type="text" name="raca" value="{{ ficha.raca|default_if_none:'' }}">
-                    <p>Raça</p>
+                    <p>Raça:</p>
                 </div>
                 <div id="ialinhamento">
                     <input type="text" name="alinhamento" value="{{ ficha.alinhamento|default_if_none:'' }}">
-                    <p>Alinhamento</p>
+                    <p>Alinhamento:</p>
                 </div>
                 <div id="iexperiencia">
                     <input type="text" name="experiencia" value="{{ ficha.experiencia|default_if_none:'' }}">
-                    <p>Pontos de Experiência</p>
+                    <p>Pontos de Experiência:</p>
                 </div>
             </div>
         </header>
@@ -98,7 +97,7 @@
             <div id="l_main">
                 <div id="prof_container">
                         <p>
-                            <input type="number" id="prof_bonus" name="bonus_de_proficiencia" value="{{ ficha.bonus_de_proficiencia|default_if_none:'0' }}" readonly >Proficiência
+                            <input type="number" id="prof_bonus" name="bonus_de_proficiencia" value="{{ ficha.bonus_de_proficiencia|default_if_none:'0' }}" >Proficiência
                         </p>
                 </div>
                 <div id="inspiracao_container">
@@ -174,7 +173,7 @@
                         </p>
                     </div>
                     <div class="pericias">
-                        <input id="check_atletismo" type="checkbox" name="prof_checks" value="aletismo" {% if "atletismo" in ficha.prof_check %} checked {% endif %}>
+                        <input id="check_atletismo" type="checkbox" name="prof_checks" value="atletismo" {% if "atletismo" in ficha.prof_check %} checked {% endif %}>
                         <p>
                             <span id="atletismo">0</span>
                             <span>Atletismo (For)</span>
@@ -347,48 +346,42 @@
                 </div>
             </div>
         </main>
-        <button type="submit">Salvar</button>
-    </form>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
         <div id="ataques">
-                {% for ataque in ataques %}
-                    <div class="ataque">
-                        <table>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Acerto</th>
-                                <th>Dano</th>
-                                <th>Resultado acerto</th>
-                                <th>Resultado dano</th>
-                                <th>Ação</th>
-                            </tr>
-                            <tr>
-                                <td id="nome{{ataque.id}}">{{ ataque.nome_ataque }}</td>
-                                <td id="acerto{{ataque.id}}">{{ ataque.acerto_ataque }}</td>
-                                <td id="dano{{ataque.id}}">{{ ataque.dano_ataque }}</td>
-                                <td id="acerto_res{{ataque.id}}">#</td>
-                                <td id="dano_res{{ataque.id}}">#</td>
-                                <td><button type="button" class="btn_ataque" data-id="{{ ataque.id }}" data-ataque="{{ ataque.id }}">Usar</button></td>
-                            </tr>
-                        </table>
-                    </div>
-                {% endfor %}
-                <div id="add_ataque">
-                    <form>
-                        <p>
-                            <input type="hidden" name="ficha" value="{{ ficha.id }}">
-                            <span><input type="text" name="nome_ataque" placeholder="Nome da habilidade"></span>
-                            <span><input type="text" name="acerto_ataque" placeholder="Acerto do ataque"></span>
-                            <span><input type="text" name="dano_ataque" placeholder="Dano do ataque"></span>
-                            <span><button type="submit">Adicionar</button></span>
-                        </p>
-                    </form>
+            {% for ataque in ataques %}
+                <div class="ataque">
+                    <table>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Acerto</th>
+                            <th>Dano</th>
+                            <th>Resultado acerto</th>
+                            <th>Resultado dano</th>
+                            <th>Ação</th>
+                        </tr>
+                        <tr>
+                            <td id="nome{{ataque.id}}">{{ ataque.nome_ataque }}</td>
+                            <td id="acerto{{ataque.id}}">{{ ataque.acerto_ataque }}</td>
+                            <td id="dano{{ataque.id}}">{{ ataque.dano_ataque }}</td>
+                            <td id="acerto_res{{ataque.id}}">#</td>
+                            <td id="dano_res{{ataque.id}}">#</td>
+                            <td>
+                                <button type="button" class="btn_ataque" data-id="{{ ataque.id }}" data-ataque="{{ ataque.id }}">Usar</button> 
+                                <button type="submit" name="btn_excluir_ataque" class="btn_excluir_ataque" value="{{ataque.id}}">Excluir</button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
+            {% endfor %}
+            <div id="add_ataque">
+                <p>
+                    <input type="hidden" name="ficha" value="{{ ficha.id }}">
+                    <span><input type="text" name="nome_ataque" placeholder="Nome da habilidade"></span>
+                    <span><input type="text" name="acerto_ataque" placeholder="Acerto do ataque"></span>
+                    <span><input type="text" name="dano_ataque" placeholder="Dano do ataque"></span>
+                    <span><button id="btn_ataque_add" type="submit">Adicionar</button></span>
+                </p>
             </div>
-    </form>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+        </div>
         <h1>Anotações</h1>
         <textarea value="{{ ficha.textao }}" name="textao" id="textao">{{ ficha.textao }}</textarea>
         <button type="submit">Salvar</button>

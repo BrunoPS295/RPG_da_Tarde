@@ -155,23 +155,21 @@ if (pv !== parseInt(max_pv.value) || parseInt(input_i_pv.value) !== i_pv){
 
 // salva morte
 
-// --- Lógica de Salvaguarda contra Morte ---
 
-// 1. Pega os elementos
 const checksSucesso = document.querySelectorAll('.check-sucesso');
 const checksFalha = document.querySelectorAll('.check-falha');
 const inputSucessos = document.getElementById('input_sucessos');
 const inputFalhas = document.getElementById('input_falhas');
 const inputMorteStatus = document.getElementById('input_morte_status');
 
-// 2. Função que recalcula tudo (não precisa somar/subtrair, ela conta do zero)
+
 function calcularMorte() {
-    // Conta quantos sucessos estão marcados
+
     const qtdSucessos = document.querySelectorAll('.check-sucesso:checked').length;
-    // Conta quantas falhas estão marcadas
+
     const qtdFalhas = document.querySelectorAll('.check-falha:checked').length;
 
-    // Atualiza os inputs pro Django salvar
+    
     if(inputSucessos) inputSucessos.value = qtdSucessos;
     if(inputFalhas) inputFalhas.value = qtdFalhas;
 
@@ -187,7 +185,7 @@ function calcularMorte() {
     }
 }
 
-// 3. Adiciona o evento de clique em todas as caixinhas
+
 checksSucesso.forEach(box => box.addEventListener('change', calcularMorte));
 checksFalha.forEach(box => box.addEventListener('change', calcularMorte));
 

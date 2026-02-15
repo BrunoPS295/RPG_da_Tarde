@@ -44,12 +44,24 @@ def rpg(request, id):
         form = FichaForm(request.POST, instance=ficha, user=request.user)
         form_ataque = AtaqueForm(request.POST)
         prof_checks = request.POST.getlist('prof_checks')
-        if form.is_valid() and form_ataque.is_valid():
+        
+        if 'btn_excluir_ataque' in request.POST:
+            ataque_id = request.POST.get('btn_excluir_ataque')
+            ataque_to_delete = get_object_or_404(ficha.ataques_set, id=ataque_id)
+            ataque_to_delete.delete()
+            
+        if form.is_valid():
             form.save()
             ficha.prof_check = prof_checks
             ficha.save()
+            return redirect('rpg', id=ficha.id)
+        else:
+            print(form.errors)
+        if form_ataque.is_valid():
             form_ataque.save()
             return redirect('rpg', id=ficha.id)
+        else:
+            print(form_ataque.errors)
     else:
         form = FichaForm(instance=ficha, user=request.user)
     context = {'form': form, 'ataques': ataques, 'ficha': ficha}
