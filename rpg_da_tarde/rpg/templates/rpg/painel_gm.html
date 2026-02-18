@@ -2,44 +2,66 @@
 {% load static %}
 {% block content %}
     <head>
-        <script type="module" src="{% static 'rpg/scripts/gm.js' %}?v=1.1" defer></script>
+        <link rel="stylesheet" href="{% static 'rpg/styles/painel_gm.css' %}?v=1.0">
+        <script type="module" src="{% static 'rpg/scripts/gm.js' %}?v=1.2" defer></script>
     </head>
     <h1>Painel do Mestre - {{ rpg.rpg_nome }}</h1>
-{%for ficha in fichas%}
-    <div class="ficha-container"> <h1>{{ ficha.jogador }} - {{ ficha.nome }}</h1>
-        <div id="atributos">
-            <form method="post" action="{% url 'painel_gm' rpg.id %}" class="form-ficha">
-                {% csrf_token %}
-                <input type="hidden" name="ficha_id" value="{{ ficha.id }}">
-                
-                <p>
-                    <input type="text" name="experiencia" value="{{ ficha.experiencia|default_if_none:'' }}">
-                    Pontos de Experiência
-                </p>
-                <p>
-                    <input type="number" name="inspiracao" value="{{ ficha.inspiracao|default_if_none:'0' }}"> Inspiração
-                </p>
-                
-                <div class="pv-section">
-                    <p class="max-pv-text" data-max="{{ ficha.max_pv }}">Vida maxima: {{ficha.max_pv}}</p>
-                    
-                    <div class="dado-vida-val" style="display: none;">{{ficha.dado_de_vida}}</div>
-                    
-                    <p><input type="number" name="temp_pv" value="{{ ficha.temp_pv|default_if_none:'0' }}"> PV Temporário</p>
-                    
-                    <p><input type="number" name="atual_pv" class="input-atual-pv" value="{{ ficha.atual_pv }}"> PV Atual</p>
-                </div>
-
-                <p>
-                    <button type="button" class="btn-descanso-longo">Descanso longo</button>
-                    <button type="button" class="btn-descanso-curto">Descanso curto</button>
-                </p>
-                <button type="submit">Salvar</button>
-            </form>
+<div id="fichas-container">
+    {%for ficha in fichas%}
+        <div class="ficha-container"> <h1>{{ ficha.jogador }} - {{ ficha.nome }}</h1>
+            <div id="atributos">
+                <form method="post" action="{% url 'painel_gm' rpg.id %}" class="form-ficha">
+                    {% csrf_token %}
+                    <input type="hidden" name="ficha_id" value="{{ ficha.id }}">
+    
+                    <p>
+                        <input type="text" name="experiencia" value="{{ ficha.experiencia|default_if_none:'' }}">
+                        Pontos de Experiência
+                    </p>
+                    <p>
+                        <input type="number" name="inspiracao" value="{{ ficha.inspiracao|default_if_none:'0' }}"> Inspiração
+                    </p>
+    
+                    <div class="pv-section">
+                        <p class="max-pv-text" data-max="{{ ficha.max_pv }}">Vida maxima: {{ficha.max_pv}}</p>
+    
+                        <div class="dado-vida-val" style="display: none;">{{ficha.dado_de_vida}}</div>
+    
+                        <p style="display: none;"><input  type="number" name="temp_pv" value="{{ ficha.temp_pv|default_if_none:'0' }}"> PV Temporário</p>
+    
+                        <p><input type="number" name="atual_pv" class="input-atual-pv" value="{{ ficha.atual_pv }}"> PV Atual</p>
+                    </div>
+    
+                    <p>
+                        <button type="button" class="btn-descanso-longo">Descanso longo</button>
+                        <button type="button" class="btn-descanso-curto">Descanso curto</button>
+                    </p>
+                    <button type="submit">Salvar</button>
+                </form>
+            </div>
+            <a class="link-ficha" href="{% url 'rpg' ficha.id %}">{{ ficha.nome }}</a>
         </div>
-        <a href="{% url 'rpg' ficha.id %}">{{ ficha.nome }}</a>
-    </div>
-{%endfor%}
+    {%endfor%}
+</div>
+    <div>
         <h1>Rascunho</h1>
         <textarea value="{{ ficha.textao }}" name="textao" id="textao">{{ ficha.textao }}</textarea>
+    </div>
+    <div id="itens-container">
+        <h1>Itens</h1>
+        <a class="btn-criar-item" href="{% url 'criar_item' rpg.id %}">Criar Item</a>
+        {% for item in itens %}
+            <div class="item-card">
+                <p>
+                    <a id="link-ficha" {% if item.documento %} href="{{ item.documento.url }}" target="_blank" {% endif %}>
+                        <strong>{{ item.nome }}</strong> - <span>Personagem: {{ item.ficha.nome }}</span> - <span>Atributo Modificado: {{ item.get_atributo_modificado_display }}</span> - <span>Modificador: {{ item.modificador }}</span> 
+                    </a>
+                    
+                    <span class="item-btn">
+                        <a href="{% url 'editar_item' item.id %}" class="btn-editar-item">Editar</a>
+                    </span>
+                </p>    
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

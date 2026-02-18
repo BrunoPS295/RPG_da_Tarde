@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+    <head>
+       <link rel="stylesheet" href="{% static 'rpg/styles/item.css' %}?v=1.0">
+    </head>
+    <div id="itens-container">
+        <h1>Editar item</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Salvar</button>
+            <button name="btn_deletar_item" value="{{ item.id }}">Deletar Item</button>
+        </form>
+    </div>
+{% endblock %}

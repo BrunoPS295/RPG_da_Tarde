@@ -1,8 +1,11 @@
 {% block content %}
+{% load static %}
+    <head>
+        <link rel="stylesheet" href="{% static 'base/styles/login.css' %}?v=1.0">
     <h1>Login</h1>
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <input type="text" name="username" placeholder="Username" required>
         <button type="submit">Entrar</button>
         <input type="hidden" name="next" value="{% url 'index'%}">
     </form>

@@ -2,6 +2,7 @@
 from django import forms
 from .models import Ficha
 from .models import Ataques
+from .models import Itens
 
 class FichaForm(forms.ModelForm):
     class Meta:
@@ -57,6 +58,17 @@ class gm_fichaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = Itens
+        fields = [
+            'ficha',
+            'nome',
+            'atributo_modificado',
+            'modificador',
+            'documento',
+        ]
 
 
   

@@ -1,0 +1,150 @@
+@charset 'UTF-8';
+
+/* Variáveis para manter a consistência com a ficha */
+:root {
+    --paper-color: #ffffff;
+    --border-color: #333;
+    --accent-color: #a42e2e;
+    --bg-color: #e0e0e0;
+    --font-body: 'Roboto', sans-serif;
+    --font-header: 'Cinzel', serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-family: var(--font-header);
+    color: var(--accent-color);
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--accent-color);
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+/* Estilização do Formulário (O "Papel") */
+form {
+    background-color: var(--paper-color);
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    border: 2px solid var(--border-color);
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Estilizando o {{ form.as_p }} */
+form p {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; /* Label em cima do Input */
+}
+
+form label {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    color: var(--border-color);
+}
+
+/* Inputs, Textareas e Selects gerados pelo Django */
+form input[type="text"], 
+form input[type="number"], 
+form input[type="file"],
+form select, 
+form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid var(--border-color); /* Estilo de linha da ficha */
+    font-family: var(--font-body);
+    font-size: 1rem;
+    background-color: #fdfdfd;
+}
+
+form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+form input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background-color: #fff;
+}
+
+/* Botões */
+button {
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 12px 25px;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.2s;
+    margin-right: 10px;
+    margin-top: 10px;
+    border: 2px solid var(--border-color);
+}
+
+/* Botão Salvar (Padrão) */
+button[type="submit"]:not([name="btn_deletar"]) {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+button[type="submit"]:not([name="btn_deletar"]):hover {
+    background-color: #822222;
+    transform: translateY(-2px);
+}
+
+/* Botão Deletar (Específico) */
+button[name="btn_deletar"] {
+    background-color: white;
+    color: var(--border-color);
+}
+
+button[name="btn_deletar"]:hover {
+    background-color: var(--border-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Esconde a checkbox de 'limpar' do Django */
+input[name$="-clear"], 
+input[id$="-clear_id"] {
+    display: none !important;
+}
+
+/* Esconde o label 'Limpar' */
+label[for$="-clear_id"] {
+    display: none !important;
+}
+
+/* Caso a "checkbox bugada" seja um marcador de lista (bullet) no rpg.html */
+li::marker, ul li::before {
+    content: none !important;
+    display: none !important;
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 480px) {
+    form {
+        padding: 20px;
+    }
+    
+    button {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+

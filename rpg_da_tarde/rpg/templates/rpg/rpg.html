@@ -1,19 +1,25 @@
 {% extends 'base/base.html' %}
+
+{% load static %}
+{% block head %}
+    <head>
+       <link rel="stylesheet" href="{% static 'rpg/styles/rpg.css' %}?v=1.0">
+    </head>
+{% endblock %}
 {% block content %}
     <h1>Fichas</h1>
+    <ul>
     {% for ficha in fichas %}
-        <p><a href="ficha/{{ ficha.id }}/">{{ ficha.nome }}</a></p>
-        
+        <li><a href="ficha/{{ ficha.id }}/">{{ ficha.nome }}</a></li>
+        <br>
     {% endfor %}
+    </ul>
     {% for rpg in rpg %}
     {% if request.user == rpg.mestre %}
             <p>
-                <div class="mestre-badge">Você é o Mestre do {{ rpg.rpg_nome }}</div>
-                <a href="{% url 'painel_gm' rpg.id %}" class="btn-gm">
-                    ACESSAR PAINEL DO MESTRE
-                </a>
+                <div class="mestre-badge">Você é o Mestre do {{ rpg.rpg_nome }}: <a href="{% url 'painel_gm' rpg.id %}" class="btn-gm">Acessar painel</a></div>   
             </p>
         {% endif %}
     {% endfor %}
-    <button><a href="{% url 'criar_ficha'%}">Criar Ficha</a></button>
+    <button><a href="{% url 'criar_ficha' %}">Criar Ficha</a></button>
 {% endblock %}

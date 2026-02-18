@@ -1,0 +1,94 @@
+/* base.css - O Cabeçalho */
+
+/* Variáveis (caso não estejam importadas globalmente) */
+:root {
+    --paper-color: #ffffff;
+    --border-color: #333;
+    --accent-color: #a42e2e;
+    --font-header: 'Cinzel', serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+/* O container principal da barra (#base) */
+body {
+    background-color: var(--bg-color);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: 50px;
+}
+
+#base {
+    position: relative; /* Para que ele fique fixo no topo */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    background-color: var(--paper-color);
+    border-bottom: 4px solid var(--border-color); /* Borda grossa em baixo */
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-evenly; /* Joga o nome pra esquerda e links pra direita */
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 20px; /* Empurra o conteúdo do site pra baixo */
+}
+
+/* O texto "Ola Username" */
+#base p {
+    font-family: var(--font-header);
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Os Links (Botões de Navegação) */
+#base a {
+    text-decoration: none;
+    color: var(--border-color);
+    font-family: var(--font-body);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border: 2px solid var(--border-color); /* Aparência de botão */
+    border-radius: 4px;
+}
+
+/* Efeito Hover nos links */
+#base a:hover {
+    background-color: var(--border-color);
+    color: var(--paper-color);
+}
+
+/* Destaque para o botão "Sair" (Opcional, deixa ele vermelho) */
+#base a[href*="logout"] {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+#base a[href*="logout"]:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Responsividade para celular: empilha tudo */
+@media (max-width: 600px) {
+    #base {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    #base a {
+        display: block;
+        text-align: center;
+        margin: 5px 0;
+        width: 100%;
+    }
+}

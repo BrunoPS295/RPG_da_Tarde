@@ -14,15 +14,12 @@ def index(request):
 def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-
         if form.is_valid():
             username = form.cleaned_data.get('username', '').strip().lower()
             user, created = User.objects.get_or_create(username=username)
-
             if created:
-                user.set_password('123456@abc')
+                user.set_password('123456@abcio')
                 user.save()
-
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             auth_login(request, user)
             return redirect('index')

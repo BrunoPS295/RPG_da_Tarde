@@ -1,10 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
 <html lang="pt-br">
-<div id="base">
-    <p>Ola {{ user.username }}</p>
-    <a href="/documentos/">Documentos</a>
-    <a href="/rpg/">RPG</a>
-    <a href="/rpg/terminal">Terminal</a>
-    <a href="/logout/">Sair</a>
-</div>
-{% block content %}{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    {% block head %}
+    {% endblock %}
+    
+    <link rel="stylesheet" href="{% static 'base/styles/base.css' %}?v=1.1">
+</head>
+    <div id="base">
+        <p>Ola {{ user.username }}</p>
+        <a href="/documentos/">Documentos</a>
+        <a href="/rpg/">RPG</a>
+        <a href="/rpg/terminal">Terminal</a>
+        <a href="{% url 'logout' %}">Sair</a>
+    </div>
+<body>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
 </html>

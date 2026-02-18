@@ -1,0 +1,134 @@
+@charset 'UTF-8';
+
+/* Variáveis idênticas ao ficha.css */
+:root {
+    --paper-color: #ffffff;
+    --border-color: #333;
+    --header-font: 'Cinzel', serif;
+    --body-font: 'Roboto', sans-serif;
+    --accent-color: #a42e2e;
+    --bg-color: #e0e0e0;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: var(--body-font);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0px auto;
+}
+
+h1 {
+    color: var(--accent-color);
+    font-family: var(--header-font);
+    font-size: 2rem;
+    border-bottom: 2px solid var(--accent-color);
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+/* --- TRANSFORMAÇÃO DA LISTA EM GRADE --- */
+ul {
+    list-style-type: none; /* Remove as bolinhas da lista */
+    padding: 0;
+    margin: 0;
+    display: flex;       /* Transforma a lista vertical em flexível */
+    flex-wrap: wrap;     /* Permite que os itens quebrem linha */
+    justify-content: center;
+    gap: 20px;           /* Espaço entre os cartões */
+    max-width: 800px;
+    width: 100%;
+}
+
+/* Esconde os <br> que estão soltos dentro do seu loop no HTML */
+ul br {
+    display: none;
+}
+
+/* Estilo do Item (Card) - Baseado nos botões de itens da ficha */
+li {
+    background-color: var(--paper-color);
+    border: 3px solid var(--border-color); /* Borda grossa */
+    border-radius: 6px;
+    width: 200px;       /* Largura fixa para ficar "quadradão" */
+    height: 100px;      /* Altura fixa para dar corpo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+}
+
+li:hover {
+    background-color: #f0f0f0;
+    border-color: var(--accent-color); /* Borda fica vermelha no hover */
+}
+
+/* O Link preenche todo o quadrado */
+li a {
+    text-decoration: none;
+    color: var(--border-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;       /* Para centralizar o texto verticalmente */
+    align-items: center;
+    justify-content: center;
+}
+
+li:hover a {
+    color: var(--accent-color);
+}
+
+/* --- ÁREA DO MESTRE --- */
+.mestre-badge {
+    background-color: var(--paper-color);
+    border: 2px solid var(--accent-color);
+    padding: 15px 25px;
+    margin-top: 30px;
+    font-weight: bold;
+    color: var(--border-color);
+    display: inline-block; /* Fica do tamanho do conteúdo */
+    border-radius: 5px;
+}
+
+.btn-gm {
+    margin-left: 10px;
+    text-decoration: none;
+    background-color: var(--accent-color);
+    color: white !important;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.btn-gm:hover {
+    background-color: #7c2323;
+}
+
+/* --- BOTÃO CRIAR FICHA (Lá embaixo) --- */
+button {
+    margin-top: 40px;
+    background-color: var(--border-color); /* Preto */
+    border: none;
+    padding: 0; /* Remove padding do botão para o link mandar */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+button a {
+    display: inline-block;
+    padding: 15px 30px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}

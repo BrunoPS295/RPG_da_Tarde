@@ -1,5 +1,9 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block content %}
+    <head>
+        <link rel="stylesheet" href="{% static 'documents/styles/editar_documento.css' %}?v=1.0">
+    </head>
     <h1>Editar Documento</h1>
     <form action="{% url 'editar_documento' document_id %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
