@@ -12,7 +12,7 @@ import mimetypes
 @login_required
 def documento(request):
     list = Documentos.objects.filter(
-        Q(usuario=request.user) | Q(permitidos=request.user)
+        Q(usuario=request.user) | Q(permitidos=request.user) | Q(publico=True)
     ).distinct().order_by('data').reverse()
     context = {'list': list}
     return render(request, 'documents/documento.html', context)
