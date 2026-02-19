@@ -1,16 +1,16 @@
 @charset 'UTF-8';
 
-/* --- Variáveis do Tema (Baseado no seu padrão) --- */
+
 :root {
     --paper-color: #ffffff;
-    --border-color: #333;    /* Preto Carvão */
-    --accent-color: #a42e2e; /* Vermelho Sangue */
-    --bg-color: #e0e0e0;     /* Cinza Fundo */
+    --border-color: #333;    
+    --accent-color: #a42e2e; 
+    --bg-color: #e0e0e0;     
     --font-header: 'Cinzel', serif;
     --font-body: 'Roboto', sans-serif;
 }
 
-/* --- Layout Geral da Página --- */
+
 body {
     background-color: var(--bg-color);
     font-family: var(--font-body);
@@ -26,7 +26,7 @@ body {
     align-items: center;
 }
 
-/* --- Título --- */
+
 h1 {
     font-family: var(--font-header);
     color: var(--accent-color);
@@ -39,11 +39,11 @@ h1 {
     text-align: center;
 }
 
-/* --- O Formulário (Cartão de Papel) --- */
+
 form {
     background-color: var(--paper-color);
     border: 3px solid var(--border-color); /* Borda grossa estilo RPG */
-    padding: 40px;
+    
     width: 100%;
     max-width: 500px; /* Largura contida para parecer uma ficha */
     box-shadow: 8px 8px 0px rgba(0,0,0,0.1); /* Sombra sólida sem desfoque */
@@ -51,11 +51,11 @@ form {
     flex-direction: column;
 }
 
-/* --- Estilizando os campos do Django ({{ form.as_p }}) --- */
+
 form p {
     margin-bottom: 25px;
     display: flex;
-    flex-direction: column; /* Coloca o Label em cima do Input */
+    flex-direction: column; 
 }
 
 /* Labels (Rótulos) */
@@ -65,17 +65,17 @@ form label {
     font-size: 0.9rem;
     color: var(--border-color);
     margin-bottom: 8px;
-    font-family: var(--font-header); /* Fonte estilosa para os rótulos */
+    font-family: var(--font-header); 
 }
 
-/* Inputs de Texto, Número e Selects */
+
 form input[type="text"], 
 form input[type="number"], 
 form select, 
 form textarea {
     padding: 12px;
     border: 2px solid #ccc;
-    border-radius: 4px; /* Leve arredondamento */
+    border-radius: 4px;
     font-family: var(--font-body);
     font-size: 1rem;
     background-color: #fcfcfc;
@@ -83,8 +83,7 @@ form textarea {
     color: #333;
 }
 
-/* --- BOTÕES --- */
-/* Estilo Base para todos os botões */
+
 button {
     cursor: pointer;
     font-weight: bold;
@@ -95,24 +94,22 @@ button {
     transition: transform 0.1s, background-color 0.2s;
     margin-top: 20px;
     border: 2px solid var(--border-color);
-    width: 100%; /* Botões ocupam a largura toda em telas pequenas */
+    width: 100%; 
 }
 
-/* Botão SALVAR (Padrão: Vermelho) */
-/* Seleciona o botão que é type="submit" mas NÃO tem name="btn_deletar_item" */
+
 button[type="submit"]:not([name="btn_deletar_item"]) {
     background-color: var(--accent-color);
     color: white;
     border-color: var(--accent-color);
-    margin-bottom: 10px; /* Espaço entre o Salvar e o Deletar */
+    margin-bottom: 10px;
 }
 
 button[type="submit"]:not([name="btn_deletar_item"]):hover {
-    background-color: #822222; /* Vermelho mais escuro */
+    background-color: #822222;
 }
 
-/* Botão DELETAR ITEM (Branco/Neutro) */
-/* Seleciona especificamente pelo atributo name */
+
 button[name="btn_deletar_item"] {
     background-color: transparent;
     color: var(--border-color);
@@ -120,25 +117,24 @@ button[name="btn_deletar_item"] {
 }
 
 button[name="btn_deletar_item"]:hover {
-    background-color: var(--border-color); /* Fica preto */
-    color: white; /* Texto branco */
+    background-color: var(--border-color); 
+    color: white; 
 }
 
-/* --- Responsividade --- */
+
 @media (min-width: 600px) {
-    /* Em telas maiores, coloca os botões lado a lado */
     form {
         position: relative;
     }
     
     button {
-        width: auto; /* Tamanho natural do texto */
+        width: auto; 
         display: inline-block;
         margin-right: 10px;
     }
 
     button[name="btn_deletar_item"] {
-        float: right; /* Joga o deletar para a direita */
+        float: right; 
         margin-right: 0;
     }
 }

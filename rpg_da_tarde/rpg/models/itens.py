@@ -67,6 +67,7 @@ class Itens(models.Model):
     ficha = models.ForeignKey('Ficha', on_delete=models.CASCADE)
     nome = models.CharField(max_length=100, blank=True, null=True)
     atributo_modificado = models.CharField(choices=modificadores_atributos,blank=True, null=True)
+    atributo_modificado_text = models.CharField(max_length=100, blank=True, null=True)
     modificador = models.CharField(max_length=100, blank=True, null=True)
     documento = models.FileField(upload_to='documentos/itens', blank=True, null=True)
 

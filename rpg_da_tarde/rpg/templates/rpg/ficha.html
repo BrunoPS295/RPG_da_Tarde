@@ -3,7 +3,12 @@
 {% block content %}
     <head>
          <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.6" defer> </script>
-         <link rel="stylesheet" href="{% static 'rpg/styles/ficha.css' %}?v=1.5">
+         <link rel="stylesheet" href="{% static 'rpg/styles/ficha.css' %}?v=2.2">
+
+        {% if ficha.rpg.rpg_nome == "eryndral" %}
+            <link rel="stylesheet" href="{% static 'rpg/styles/eryndral.css' %}">
+            <script type="module" src="{% static 'rpg/scripts/eryndral.js' %}"></script>
+        {%endif%}
     </head>
     
     <form class="form" method="post" enctype="multipart/form-data">
@@ -389,14 +394,21 @@
                 <div id="item-card-{{ item.id }}" class="item-card"data-target="{{ item.atributo_modificado|lower }}" data-mod="{{ item.modificador }}">>
                     <p>
                         <a id="link-ficha" {% if item.documento %} href="{{ item.documento.url }}" target="_blank" {% endif %}>
-                            <strong>{{ item.nome }}</strong> - <span>Atributo Modificado: {{ item.get_atributo_modificado_display }}</span> - <span>Modificador: {{ item.modificador }}</span>
+                            <strong>{{ item.nome }}</strong> - <span>Atributo Modificado: {% if item.atributo_modificado_text != none %}{{ item.atributo_modificado_text }}{% else %}{{ item.get_atributo_modificado_display }}{% endif %}</span> - <span>Modificador: {{ item.modificador }}</span>
                         </a>
                     </p>    
                 </div>
             {% endfor %}
         </div>
+
+        {% if ficha.rpg.rpg_nome == "eryndral" %}
+            {% include "rpg/complementos/eryndral.html" %}
+        {% endif %}
+        <br>
         <h1>Anotações</h1>
         <textarea value="{{ ficha.textao }}" name="textao" id="textao">{{ ficha.textao }}</textarea>
         <button name="btn_salvar_ficha" type="submit">Salvar</button>
+
+        <input type="hidden" name="log" value="{{ rpg.log }}" id="log">
     </form>
 {% endblock %}

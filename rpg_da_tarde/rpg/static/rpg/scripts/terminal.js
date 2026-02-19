@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("ress: ", resultado);
             
             const separator = document.createElement('p');
-            separator.textContent = '----------------------------------------------------------------------';
+            separator.textContent = '---------------------';
             output.appendChild(separator);
             
             

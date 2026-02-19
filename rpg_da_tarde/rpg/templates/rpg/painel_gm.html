@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <head>
-        <link rel="stylesheet" href="{% static 'rpg/styles/painel_gm.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'rpg/styles/painel_gm.css' %}?v=1.1">
         <script type="module" src="{% static 'rpg/scripts/gm.js' %}?v=1.2" defer></script>
     </head>
     <h1>Painel do Mestre - {{ rpg.rpg_nome }}</h1>
@@ -43,10 +43,6 @@
         </div>
     {%endfor%}
 </div>
-    <div>
-        <h1>Rascunho</h1>
-        <textarea value="{{ ficha.textao }}" name="textao" id="textao">{{ ficha.textao }}</textarea>
-    </div>
     <div id="itens-container">
         <h1>Itens</h1>
         <a class="btn-criar-item" href="{% url 'criar_item' rpg.id %}">Criar Item</a>
@@ -54,7 +50,7 @@
             <div class="item-card">
                 <p>
                     <a id="link-ficha" {% if item.documento %} href="{{ item.documento.url }}" target="_blank" {% endif %}>
-                        <strong>{{ item.nome }}</strong> - <span>Personagem: {{ item.ficha.nome }}</span> - <span>Atributo Modificado: {{ item.get_atributo_modificado_display }}</span> - <span>Modificador: {{ item.modificador }}</span> 
+                        <strong>{{ item.nome }}</strong> - <span>Personagem: {{ item.ficha.nome }}</span> - <span>Atributo Modificado: {% if item.atributo_modificado_text != none %}{{ item.atributo_modificado_text }}{% else %}{{ item.get_atributo_modificado_display }}{% endif %}</span> - <span>Modificador: {{ item.modificador }}</span> 
                     </a>
                     
                     <span class="item-btn">
@@ -63,5 +59,9 @@
                 </p>    
             </div>
         {% endfor %}
+    </div>
+    <div>
+        <h1>Rascunho</h1>
+        <textarea value="{{ ficha.textao }}" name="textao" id="textao">{{ ficha.textao }}</textarea>
     </div>
 {% endblock %}

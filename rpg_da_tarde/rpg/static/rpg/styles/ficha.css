@@ -12,7 +12,7 @@ body {
     background-color: #e0e0e0;
     font-family: var(--body-font);
     margin: 0;
-    padding: 0px 20px;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -359,7 +359,7 @@ form:nth-of-type(2), form:nth-of-type(3) {
     text-align: center;
 }
 
-.btn_ataque, #btn_ataque_add, .btn_excluir_ataque {
+.btn_ataque, #btn_add_ataque, .btn_excluir_ataque {
     background-color: var(--accent-color);
     color: white;
     border: none;
@@ -369,7 +369,7 @@ form:nth-of-type(2), form:nth-of-type(3) {
     font-weight: bold;
 }
 
-.btn_ataque, #btn_ataque_add:hover, .btn_excluir_ataque:hover {
+.btn_ataque:hover, #btn_add_ataque:hover, .btn_excluir_ataque:hover {
     background-color: #822222;
 }
 
@@ -491,4 +491,125 @@ textarea#textao {
 #dpv{
     display: block;
     margin: auto;
+}
+
+/* =========================================
+   PORT PARA MOBILE (Telas menores que 768px)
+   ========================================= */
+@media screen and (max-width: 768px) {
+    
+    body {
+        padding: 0 5px; /* Reduz margem lateral no corpo */
+        overflow-x: hidden; /* Trava scroll horizontal da página */
+    }
+
+    /* Força o container principal a nunca ser maior que a tela */
+    .form, form:nth-of-type(2), form:nth-of-type(3) {
+        width: 100%;
+        max-width: 100vw;
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 0; /* Remove curvas nas bordas para ganhar espaço */
+        overflow: hidden; /* Garante que nada saia da caixa branca */
+    }
+
+    /* Header: Empilha e ajusta inputs que vazam */
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #l_header, #r_header {
+        width: 100% !important;
+        display: block; /* Remove o grid que esmaga os itens */
+    }
+
+    #r_header div {
+        margin-bottom: 10px;
+    }
+
+    /* Atributos: O segredo para não vazar é o flex-basis */
+    #upper_main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 10px;
+        padding: 10px 5px;
+    }
+
+    .atributo {
+        flex: 1 1 calc(33.33% - 10px); /* Tenta manter 3, mas diminui se precisar */
+        min-width: 80px; /* Impede que fiquem finos demais */
+        padding: 5px;
+    }
+
+    .atributo p {
+        font-size: 1.4rem; /* Diminui o número para caber na caixa */
+    }
+
+    /* Main: Quebra o grid e vira coluna única */
+    main {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #l_main, #r_main {
+        width: 100%;
+    }
+
+    /* Tabelas e Ataques: Onde o vazamento é mais comum */
+    .table-container, .ataque {
+        width: 100%;
+        overflow-x: auto; /* Cria o scroll interno na tabela */
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 10px;
+        border: 1px solid #eee;
+    }
+
+    table {
+        min-width: 450px; /* Garante que os dados não fiquem espremidos */
+    }
+
+    /* Ajuste para as Salvaguardas e Perícias não quebrarem a linha errado */
+    .salvaguardas p, .pericias p {
+        font-size: 0.8rem;
+        word-break: break-word; /* Força quebra de texto longo */
+    }
+
+    /* Status (CA, Iniciativa...) */
+    #upper_r_main {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    #upper_r_main div {
+        flex: 1 1 calc(50% - 10px); /* Ficam 2 por linha no celular */
+        margin-bottom: 5px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+    #l_header{
+        padding: 0px 5px;
+    }
+}
+    
+
+@media screen and (max-width: 380px) {
+    .atributo {
+        flex: 1 1 calc(50% - 10px); /* Passa a 2 por linha */
+    }
+
+    #upper_r_main div {
+        flex: 1 1 100%; /* CA e Iniciativa ocupam a linha toda */
+    }
+    
+    #l_header p, #r_header p {
+        font-size: 0.65rem; /* Letras minúsculas para não quebrar layout */
+    }
 }

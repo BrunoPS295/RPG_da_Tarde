@@ -13,7 +13,6 @@ body {
     background: var(--doc-bg);
     font-family: var(--doc-body);
     margin: 0;
-    padding: 0;
     min-height: 100vh;
 }
 
@@ -47,7 +46,7 @@ a:hover {
 
 @media (max-width: 700px) {
     .documento-container {
-        padding: 12px 4vw;
+    
         margin: 18px 0;
     }
     h1 { font-size: 1.3rem; }

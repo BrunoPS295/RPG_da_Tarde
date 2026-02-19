@@ -1,16 +1,7 @@
-@charset 'UTF-8';
-
-:root {
-    --paper-color: #fdfbf7;
-    --border-color: #333;
-    --accent-color: #a42e2e;
-    --bg-color: #e0e0e0;
-}
-
 body {
     background-color: var(--bg-color);
     font-family: 'Roboto', sans-serif;
-    padding: 0px 20px;
+    
     margin: 0;
 }
 
@@ -173,7 +164,7 @@ button[type="submit"]:hover {
 
 
 
-#textao {
+#textao, #log {
     display: block;
     width: 90%;
     min-height: 150px;

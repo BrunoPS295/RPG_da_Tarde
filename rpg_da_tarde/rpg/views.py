@@ -88,8 +88,6 @@ def painel_gm(request, id):
     ficha = None
     form = None
 
-    
-
     if request.method == 'POST':
         ficha_id = request.POST.get('ficha_id')
         if not ficha_id:
@@ -102,8 +100,6 @@ def painel_gm(request, id):
             return redirect('painel_gm', id=rpg.id)
         else:
             print(form.errors)
-
-        
 
     context = {
         'rpg': rpg,

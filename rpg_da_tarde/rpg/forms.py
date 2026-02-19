@@ -66,10 +66,9 @@ class ItemForm(forms.ModelForm):
             'ficha',
             'nome',
             'atributo_modificado',
+            'atributo_modificado_text',
             'modificador',
             'documento',
         ]
 
 
-  
-    
