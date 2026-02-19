@@ -70,5 +70,11 @@ class ItemForm(forms.ModelForm):
             'modificador',
             'documento',
         ]
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(ItemForm, self).__init__(*args, **kwargs)
+
+        if user:
+            self.fields['ficha'].queryset = Ficha.objects.filter(rpg__mestre=user)
 
 
