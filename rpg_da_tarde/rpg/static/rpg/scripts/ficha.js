@@ -160,7 +160,7 @@ while (i_pv < nivel){
 if (pv !== parseInt(max_pv.value) || parseInt(input_i_pv.value) !== i_pv){
     max_pv.value = pv
     input_i_pv.value = i_pv 
-    form.requestSubmit();
+
 }
 
 // Salva morte

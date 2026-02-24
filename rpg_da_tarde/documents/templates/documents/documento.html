@@ -8,12 +8,10 @@
     <div class="documento-container">
         <ul>
         {% for document in list %}
-            {% if document.usuario == user or user in document.permissoes.all %}
-                <li>{{ document.titulo }} <br> {{ document.data }} - {{ document.usuario }}</li>
-                <a href="{% url 'abrir_documento' document.id %}" target="_blank">Abrir Documento</a>
-                {% if document.usuario == user %}:
-                    <a href="{% url 'editar_documento' document.pk %}">Editar Documento</a>
-                {% endif %}
+            <li>{{ document.titulo }} <br> {{ document.data }} - {{ document.usuario }}</li>
+            <a href="{% url 'abrir_documento' document.id %}" target="_blank">Abrir Documento</a>
+            {% if document.usuario == user %}:
+                <a href="{% url 'editar_documento' document.pk %}">Editar Documento</a>
             {% endif %}
         {% endfor %}
         </ul>

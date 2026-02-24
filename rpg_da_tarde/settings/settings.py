@@ -27,6 +27,8 @@ DEBUG = True
 
 CSRF_TRUSTED_ORIGINS = [
     "https://grindingly-urogenous-yi.ngrok-free.dev",
+    "https://*.ngrok.io",
+    "https://*.ngrok-free.app",
 ]
 
 ALLOWED_HOSTS = ['*']
