@@ -2,17 +2,20 @@
 {% load static %}
 {% block content %}
     <head>
-        <link rel="stylesheet" href="{% static 'documents/styles/documento.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'documents/styles/documento.css' %}?v=1.1">
     </head>
     <h1>Documentos</h1>
     <div class="documento-container">
         <ul>
         {% for document in list %}
-            <li>{{ document.titulo }} <br> {{ document.data }} - {{ document.usuario }}</li>
-            <a href="{% url 'abrir_documento' document.id %}" target="_blank">Abrir Documento</a>
+            <div class="document">
+                <li>{{ document.titulo }} <br> {{ document.data }} - {{ document.usuario }}</li>
+                <a href="{% url 'abrir_documento' document.id %}" target="_blank">Abrir Documento</a>
+            
             {% if document.usuario == user %}:
                 <a href="{% url 'editar_documento' document.pk %}">Editar Documento</a>
             {% endif %}
+            </div>
         {% endfor %}
         </ul>
     </div>

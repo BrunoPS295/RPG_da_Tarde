@@ -21,7 +21,10 @@
                 <select name="rpg" id="sel_rpg">
                     <option value="">Selecione um RPG</option>
                     {% for choice in form.rpg.field.queryset %}
-                        <option value="{{ choice.pk }}">{{ choice.rpg_nome }}</option>
+                        
+                        <option {% if ficha.rpg and choice.pk == ficha.rpg.id %} selected {% endif %} value="{{ choice.pk }}">
+                            {{ choice.rpg_nome }}
+                        </option>
                     {% endfor %}
                 </select>
                 <input type="text" name="nome" value="{{ ficha.nome|default_if_none:'' }}">
