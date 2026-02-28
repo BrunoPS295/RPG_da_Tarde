@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <head>
-         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.6" defer> </script>
+         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.7" defer> </script>
          <link rel="stylesheet" href="{% static 'rpg/styles/ficha.css' %}?v=2.2">
 
         {% if ficha.rpg.rpg_nome == "eryndral" %}
@@ -323,7 +323,7 @@
                 </div>
                 <div id="temp_pv_container">
                     <p id="temp_pv">
-                        <input type="number" name="temp_pv" value="{{ ficha.temp_pv|default_if_none:'0' }}" readonly>
+                        0
                     </p>
                     <h2>Pontos de vida temporários</h2>
                 </div>

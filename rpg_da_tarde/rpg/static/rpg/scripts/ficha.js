@@ -2,6 +2,8 @@ import { rolls } from './rolls.js';
 
 const input_i_pv = document.querySelector('[name="i_pv"]')
 const max_pv = document.querySelector('[name="max_pv"]');
+const atual_pv = document.getElementById("pv_value")
+const temp_pv = document.getElementById("temp_pv")
 const dpv = document.querySelector('[name="dado_de_vida"]');
 const exp = document.querySelector('[name="experiencia"]');
 let exp_value = parseInt(exp.value) || 0;
@@ -141,9 +143,8 @@ while (i_pv < nivel){
         if (dpv.value.includes("d")){
             let max_rollpv = dpv.value.toLowerCase().split('d')
             // Correção de segurança no parse
-            let qtd = parseInt(max_rollpv[0]) || 1;
             let faces = parseInt(max_rollpv[1]) || 0;
-            pv += (faces * qtd) + consti;
+            pv += faces + consti;
         }
         else{
             pv += (parseInt(dpv.value) || 0) + consti
@@ -162,6 +163,9 @@ if (pv !== parseInt(max_pv.value) || parseInt(input_i_pv.value) !== i_pv){
     input_i_pv.value = i_pv 
 
 }
+
+console.log(atual_pv.textContent)
+temp_pv.textContent = atual_pv.textContent - pv
 
 // Salva morte
 const checksSucesso = document.querySelectorAll('.check-sucesso');
@@ -239,17 +243,14 @@ itens.forEach(item => {
     };
 });
 
-// itens
-// --- PARTE FINAL SIMPLIFICADA ---
 
 itens.forEach(item => {
     let target = item.getAttribute('data-target'); 
     let mod = item.getAttribute('data-mod');
 
-    if (!target) return; // Pula se não tiver alvo
+    if (!target) return; 
 
     try {
-        // 1. PERÍCIAS (Onde estava o erro)
         if (target.includes("peri") || pericias.includes(target.replace("peri_", ""))) {
             let chave = target.replace("peri_", "").replace("peri", "");
             if (peri_[chave]) {
@@ -257,7 +258,6 @@ itens.forEach(item => {
                 peri_[chave].textContent = Math.floor(eval(base + mod));
             }
         } 
-        // 2. SALVAGUARDAS
         else if (target.includes("salva") || atributos.includes(target.replace("salva_", ""))) {
             if (!modificadores[target]) {
                 modificadores[target] = "";

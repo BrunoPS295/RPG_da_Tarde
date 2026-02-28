@@ -94,7 +94,7 @@ button {
     transition: transform 0.1s, background-color 0.2s;
     margin-top: 20px;
     border: 2px solid var(--border-color);
-    width: 100%; 
+    width: 100% !important; 
 }
 
 
