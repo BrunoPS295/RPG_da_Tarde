@@ -20,7 +20,7 @@ def selecionar_fichas(request):
         Q(mestre=request.user) | Q(jogadores=request.user)
     ).distinct()
     fichas = Ficha.objects.filter(
-        Q(jogador=request.user, morte=False) | Q(rpg__mestre=request.user, morte=False)
+        Q(jogador=request.user, morte=False)
     )
     context = {'fichas': fichas, 'rpg': rpg}
     return render(request, 'rpg/rpg.html', context)
@@ -114,14 +114,14 @@ def painel_gm(request, id):
 def criar_item(request, id):
     rpg = get_object_or_404(RPGmodel, id=id)
     if request.method == 'POST':
-        form = ItemForm(request.POST, request.FILES)
+        form = ItemForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             new_item = form.save(commit=False)
             new_item.rpg_item = rpg
             new_item.save()
             return redirect('painel_gm', id=rpg.id)
     else:
-        form = ItemForm()
+        form = ItemForm(user=request.user)
     context = {'form': form, 'rpg': rpg}
     return render(request, 'rpg/criar_item.html', context)
 
@@ -142,7 +142,7 @@ def acessar_item(request, id):
 def editar_item(request, id):
     item = get_object_or_404(Itens, id=id)
     if request.method == 'POST':
-        form = ItemForm(request.POST, request.FILES, instance=item)
+        form = ItemForm(request.POST, request.FILES, instance=item, user=request.user)
         if 'btn_deletar_item' in request.POST:
             item.delete()
             return redirect('painel_gm', id=item.rpg_item.id)
@@ -153,6 +153,6 @@ def editar_item(request, id):
         else:
             print(form.errors)
     else:
-        form = ItemForm(instance=item)
+        form = ItemForm(instance=item, user=request.user)
     context = {'form': form, 'item': item}
     return render(request, 'rpg/editar_item.html', context)

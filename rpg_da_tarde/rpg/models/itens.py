@@ -39,27 +39,7 @@ modificadores_atributos = [
     ('deslocamento', 'Deslocamento'),
     ('max_pv', 'Vida Máxima'),
 
-    ('dano_perfurante', 'Dano a Perfurante'),
-    ('dano_cortante', 'Dano a Cortante'),
-    ('dano_contundente', 'Dano a Contundente'),
-    ('dano_fogo', 'Dano a Fogo'),
-    ('dano_frio', 'Dano a Frio'),
-    ('dano_eletricidade', 'Dano a Eletricidade'),
-    ('dano_veneno', 'Dano a Veneno'),
-    ('dano_necrotico', 'Dano a Necrótico'),
-    ('dano_radiante', 'Dano a Radiante'),
-    ('dano_psiquico', 'Dano a Psíquico'),
 
-    ('res_perfurante', 'Resistência a Perfurante'),
-    ('res_cortante', 'Resistência a Cortante'),
-    ('res_contundente', 'Resistência a Contundente'),
-    ('res_fogo', 'Resistência a Fogo'),
-    ('res_frio', 'Resistência a Frio'),
-    ('res_eletricidade', 'Resistência a Eletricidade'),
-    ('res_veneno', 'Resistência a Veneno'),
-    ('res_necrotico', 'Resistência a Necrótico'),
-    ('res_radiante', 'Resistência a Radiante'),
-    ('res_psiquico', 'Resistência a Psíquico'),
 ]
 
 class Itens(models.Model):

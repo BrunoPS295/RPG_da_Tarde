@@ -13,7 +13,6 @@ class Ficha(models.Model):
 
     inspiracao = models.IntegerField(default=0, blank=True, null=True)
     max_pv = models.IntegerField(default=0, blank=True, null=True)
-    temp_pv = models.IntegerField(default=0, blank=True, null=True)
     atual_pv = models.IntegerField(default= None, blank=True, null=True)
     i_pv = models.IntegerField(default=0, blank=True, null=True)
     dado_de_vida = models.CharField(max_length=20, default='0', blank=True, null=True)
