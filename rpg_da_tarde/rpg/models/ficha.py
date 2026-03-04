@@ -32,8 +32,8 @@ class Ficha(models.Model):
     textao = models.TextField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        if self.atual_pv is None or self.atual_pv > self.max_pv + self.temp_pv or self.atual_pv <= 0:
-            self.atual_pv = (self.max_pv or -1) + (self.temp_pv or -1)
+        if self.atual_pv is None :
+            self.atual_pv = self.max_pv or 0
         super().save(*args, **kwargs)
 
     def __str__(self):
