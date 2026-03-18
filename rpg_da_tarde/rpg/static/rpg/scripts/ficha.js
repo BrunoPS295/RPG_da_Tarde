@@ -81,7 +81,7 @@ for (let i = 0; i < atributos.length; i++) {
     let modificador = Math.floor((valor_bruto - 10) / 2);
 
 
-    atr[atributo].textContent = parseInt(atr[atributo].textContent)  + modificador;
+    atr[atributo].textContent = Math.floor(parseInt(atr[atributo].textContent)  + modificador);
     
 
     let bonus_prof = check_salva[atributo].checked ? prof_bonus_value : 0;
