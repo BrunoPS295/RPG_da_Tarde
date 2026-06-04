@@ -97,7 +97,6 @@ li:hover a {
 .btn-gm {
     margin-left: 10px;
     text-decoration: none;
-    background-color: var(--accent-color);
     color: white !important;
     padding: 5px 10px;
     border-radius: 4px;

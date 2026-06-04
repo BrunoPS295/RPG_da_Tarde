@@ -9,6 +9,7 @@ from .forms import FichaForm
 from .forms import gm_fichaForm
 from .forms import AtaqueForm
 from .forms import ItemForm
+from .forms import rpgForm
 from .models import RPGmodel
 from .models import Ficha
 from .models import Itens
@@ -26,17 +27,18 @@ def selecionar_fichas(request):
     return render(request, 'rpg/rpg.html', context)
 
 def criar_ficha(request):
-    rpgs = RPGmodel.objects.all()
     if request.method == 'POST':
         form = FichaForm(request.POST, user=request.user)
         if form.is_valid():
             new_ficha = form.save(commit=False)
             new_ficha.jogador = request.user
             new_ficha.save()
+            new_ficha.rpg.jogadores.add(request.user)
             return redirect('rpg', id=new_ficha.id)
     else:
         form = FichaForm(user=request.user)
-    context = {'form': form, 'rpgs': rpgs}
+    ficha = Ficha(jogador=request.user)
+    context = {'form': form, 'ficha': ficha}
     return render(request, 'rpg/ficha.html', context)
 
 def rpg(request, id):
@@ -66,7 +68,8 @@ def rpg(request, id):
                 
         if 'btn_salvar_ficha' in request.POST:
             if form.is_valid():
-                form.save()
+                ficha = form.save()
+                ficha.rpg.jogadores.add(request.user)
                 ficha.prof_check = prof_checks
                 ficha.save()
                 return redirect('rpg', id=ficha.id)
@@ -110,7 +113,27 @@ def painel_gm(request, id):
     }
     return render(request, 'rpg/painel_gm.html', context)
 
+def criar_rpg(request):
+    if request.method == 'POST':
+        form = rpgForm(request.POST)
+        if form.is_valid():
+            rpg = form.save(commit=False)
+            rpg.mestre = request.user
+            rpg.save()
+            return redirect('selecionar_fichas')
+    else:
+        form = rpgForm()
+    context = {'form': form}
+    return render(request, 'rpg/criar_rpg.html', context)
+
 #itens
+def inventario(request, id):
+    ficha = get_object_or_404(Ficha, id=id)
+    itens = Itens.objects.filter(ficha=ficha).order_by('nome')
+    context = {'ficha': ficha, 'itens': itens}
+    return render(request, 'rpg/inventario.html', context)
+
+
 def criar_item(request, id):
     rpg = get_object_or_404(RPGmodel, id=id)
     if request.method == 'POST':

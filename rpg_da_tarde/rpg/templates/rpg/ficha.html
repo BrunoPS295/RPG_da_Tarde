@@ -5,9 +5,9 @@
          <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.7" defer> </script>
          <link rel="stylesheet" href="{% static 'rpg/styles/ficha.css' %}?v=2.2">
 
-        {% if ficha.rpg.rpg_nome == "eryndral" %}
-            <link rel="stylesheet" href="{% static 'rpg/styles/eryndral.css' %}">
-            <script type="module" src="{% static 'rpg/scripts/eryndral.js' %}"></script>
+        {% if ficha and ficha.rpg and ficha.rpg.rpg_nome == "eryndral" %}
+            <link rel="stylesheet" href="{% static 'rpg/styles/complementos/eryndral.css' %}">
+            <script type="module" src="{% static 'rpg/scripts/complementos/eryndral.js' %}"></script>
         {%endif%}
     </head>
     
@@ -18,15 +18,7 @@
         <header>
             <br>
             <div id="l_header">
-                <select name="rpg" id="sel_rpg">
-                    <option value="">Selecione um RPG</option>
-                    {% for choice in form.rpg.field.queryset %}
-                        
-                        <option {% if ficha.rpg and choice.pk == ficha.rpg.id %} selected {% endif %} value="{{ choice.pk }}">
-                            {{ choice.rpg_nome }}
-                        </option>
-                    {% endfor %}
-                </select>
+                <input type="text" name="rpg" value="{% if ficha and ficha.rpg %}{{ ficha.rpg.key }}{% endif %}" placeholder="Chave do RPG">
                 <input type="text" name="nome" value="{{ ficha.nome|default_if_none:'' }}">
                 <p>Nome do personagem:</p>
             </div>
@@ -393,10 +385,13 @@
         </div>
         <div id="itens-container">
             <h1>Itens</h1>
+            {% if ficha.id %}
+                <a href="{% url 'inventario' ficha.id %}">Ver Inventário</a> 
+            {% endif %}
             {% for item in itens %}
-                <div id="item-card-{{ item.id }}" class="item-card"data-target="{{ item.atributo_modificado|lower }}" data-mod="{{ item.modificador }}">>
+                <div id="item-card-{{ item.id }}" class="item-card" data-target="{{ item.atributo_modificado|lower }}" data-mod="{{ item.modificador }}">
                     <p>
-                        <a id="link-ficha" {% if item.documento %} href="{{ item.documento.url }}" target="_blank" {% endif %}>
+                        <a id="link-ficha-{{ item.id }}" {% if item.documento %} href="{{ item.documento.url }}" target="_blank" {% endif %}>
                             <strong>{{ item.nome }}</strong> - <span>Atributo Modificado: {% if item.atributo_modificado_text != none %}{{ item.atributo_modificado_text }}{% else %}{{ item.get_atributo_modificado_display }}{% endif %}</span> - <span>Modificador: {{ item.modificador }}</span>
                         </a>
                     </p>    
@@ -404,7 +399,7 @@
             {% endfor %}
         </div>
 
-        {% if ficha.rpg.rpg_nome == "eryndral" %}
+        {% if ficha.rpg and ficha.rpg.rpg_nome == "eryndral" %}
             {% include "rpg/complementos/eryndral.html" %}
         {% endif %}
         <br>

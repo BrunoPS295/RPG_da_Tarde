@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="{% static 'rpg/styles/painel_gm.css' %}?v=1.1">
         <script type="module" src="{% static 'rpg/scripts/gm.js' %}?v=1.2" defer></script>
     </head>
-    <h1>Painel do Mestre - {{ rpg.rpg_nome }}</h1>
+    <h1>Painel do Mestre: {{ rpg.rpg_nome }} - Chave de acesso: {{ rpg.key }}</h1>
 <div id="fichas-container">
     {%for ficha in fichas%}
         <div class="ficha-container"> <h1>{{ ficha.jogador }} - {{ ficha.nome }}</h1>

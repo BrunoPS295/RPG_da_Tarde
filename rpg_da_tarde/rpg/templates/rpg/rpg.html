@@ -10,16 +10,29 @@
     <h1>Fichas</h1>
     <ul>
     {% for ficha in fichas %}
+        <br>
         <li><a href="ficha/{{ ficha.id }}/">{{ ficha.nome }}</a></li>
         <br>
     {% endfor %}
     </ul>
+    <br>
+    <li>
+        <a href="{% url 'criar_ficha' %}">Criar Ficha</a>
+    </li>
+    <br>
+    <h1>RPGs</h1>
     {% for rpg in rpg %}
     {% if request.user == rpg.mestre %}
-            <p>
-                <div class="mestre-badge">Você é o Mestre do {{ rpg.rpg_nome }}: <a href="{% url 'painel_gm' rpg.id %}" class="btn-gm">Acessar painel</a></div>   
-            </p>
+            <br>
+            <li>
+                <a href="{% url 'painel_gm' rpg.id %}">Acessar painel do {{ rpg.rpg_nome }}</a>  
+            </li>
+            <br>
         {% endif %}
     {% endfor %}
-    <button><a href="{% url 'criar_ficha' %}">Criar Ficha</a></button>
+    <br>
+    <li>
+        <a href="{% url 'criar_rpg' %}">Criar RPG</a>
+    </li>
+    <br>
 {% endblock %}

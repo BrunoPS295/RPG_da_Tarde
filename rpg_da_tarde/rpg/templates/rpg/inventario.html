@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+    <div id="itens-container">
+            <h1>Itens</h1>
+            {% for item in itens %}
+                <div id="item-card-{{ item.id }}" class="item-card" data-target="{{ item.atributo_modificado|lower }}" data-mod="{{ item.modificador }}">
+                    <p>
+                        <a id="link-ficha" {% if item.documento %} href="{{ item.documento.url }}" target="_blank" {% endif %}>
+                            <strong>{{ item.nome }}</strong> - <span>Atributo Modificado: {% if item.atributo_modificado_text != none %}{{ item.atributo_modificado_text }}{% else %}{{ item.get_atributo_modificado_display }}{% endif %}</span> - <span>Modificador: {{ item.modificador }}</span>
+                        </a>
+                    </p>    
+                </div>
+            {% endfor %}
+{% endblock %}
