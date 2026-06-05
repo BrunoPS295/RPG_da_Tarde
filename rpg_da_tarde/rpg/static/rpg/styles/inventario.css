@@ -182,6 +182,28 @@ form {
     opacity: 1;
 }
 
+.item-btn {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.btn-editar-item {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-editar-item:hover {
+    background-color: #822222;
+    transform: translateY(-1px);
+}
 
 button[type="submit"] {
     display: block;

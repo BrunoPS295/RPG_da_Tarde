@@ -127,9 +127,25 @@ def criar_rpg(request):
     return render(request, 'rpg/criar_rpg.html', context)
 
 #itens
-def inventario(request, id):
-    ficha = get_object_or_404(Ficha, id=id)
-    itens = Itens.objects.filter(ficha=ficha, quantidade__gt=0).order_by('nome')
+def inventario(request):
+    id_ficha = request.GET.get('ficha')
+    id_rpg = request.GET.get('rpg')
+    ficha = None
+    rpg = None
+    itens = Itens.objects.none()
+    redirect_query = ''
+    mestre = False
+
+    if id_ficha:
+        ficha = get_object_or_404(Ficha, id=id_ficha)
+        itens = Itens.objects.filter(ficha=ficha, quantidade__gt=0).order_by('nome')
+        redirect_query = f'?ficha={ficha.id}'
+    elif id_rpg:
+        rpg = get_object_or_404(RPGmodel, id=id_rpg)
+        itens = Itens.objects.filter(ficha__rpg=rpg).order_by('nome')
+        redirect_query = f'?rpg={rpg.id}'
+        mestre = (request.user == rpg.mestre)
+
     if request.method == 'POST':
         for item in itens:
             quantidade = request.POST.get(f"quantidade_{item.id}")
@@ -140,8 +156,8 @@ def inventario(request, id):
                     pass
             item.equipado = request.POST.get(f"equipado_{item.id}") is not None
             item.save()
-        return redirect('inventario', id=ficha.id)
-    context = {'ficha': ficha, 'itens': itens}
+        return redirect(f"{request.path}{redirect_query}")
+    context = {'ficha': ficha, 'rpg': rpg, 'itens': itens, 'mestre': mestre}
     return render(request, 'rpg/inventario.html', context)
 
 

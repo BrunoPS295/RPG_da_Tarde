@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <head>
-         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.9" defer> </script>
+         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.99" defer> </script>
          <link rel="stylesheet" href="{% static 'rpg/styles/ficha.css' %}?v=2.4">
 
         {% if ficha and ficha.rpg and ficha.rpg.rpg_nome == "eryndral" %}
@@ -386,7 +386,7 @@
         <div id="itens-container">
             <h1>Itens</h1>
             {% if ficha.id %}
-                <a href="{% url 'inventario' ficha.id %}" class="btn-inventario">Ver Inventário</a> 
+                <a href="{% url 'inventario'%}?ficha={{ ficha.id }}" class="btn-inventario">Ver Inventário</a> 
             {% endif %}
             {% for item in itens %}
                 <div style="display:none;" id="item-card-{{ item.id }}" class="item-card" data-target="{{ item.atributo_modificado|lower }}" data-mod="{{ item.modificador }}" data-equip="{% if item.equipado %}true{% else %}false{% endif %}">

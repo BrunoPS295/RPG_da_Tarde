@@ -2,7 +2,7 @@
 {% load static %}
 {% block head %}
     <head>
-        <link rel="stylesheet" href="{% static 'rpg/styles/inventario.css' %}?v=1.0">
+        <link rel="stylesheet" href="{% static 'rpg/styles/inventario.css' %}?v=1.1">
         <script src="{% static 'rpg/scripts/inventario.js' %}?v=1.1" defer></script>
     </head>
 {% endblock %}
@@ -13,37 +13,81 @@
         <div id="itens-container">
             <h1>Itens</h1>
             <div id="itens-grid">
-                {% for item in itens %}
-                    <div id="item-card-{{ item.id }}" class="item-card" data-target="{{ item.atributo_modificado|lower }}" data-mod="{{ item.modificador }}">
-                        <div class="item-header">
-                            <h2>{{ item.nome }}</h2>
-                        </div>
-                        <div class="item-details">
-                            <p class="detail-row">
-                                <span class="label">Atributo:</span>
-                                <span class="value">{% if item.atributo_modificado_text != none %}{{ item.atributo_modificado_text }}{% else %}{{ item.get_atributo_modificado_display }}{% endif %}</span>
-                            </p>
-                            <p class="detail-row">
-                                <span class="label">Mod:</span>
-                                <span class="value">{{ item.modificador }}</span>
-                            </p>
-                            <p class="detail-row">
-                                <span class="label">Qtd:</span>
-                                <input type="number" readonly class="quantidade-input" data-id="{{ item.id }}" name="quantidade_{{ item.id }}" value="{{ item.quantidade }}">
-                            </p>
-                        </div>
-                        <div class="item-footer">
-                            <button type="button" data-id="{{ item.id }}" class="decrementar">−</button>
-                            <label class="checkbox-label">
-                                <input name="equipado_{{ item.id }}" type="checkbox" class="equipar-checkbox" data-id="{{ item.id }}" {% if item.equipado %}checked{% endif %}>
-                                <span>Equipado</span>
-                            </label>
-                        </div>
-                        {% if item.documento %}
-                            <a href="{{ item.documento.url }}" target="_blank" class="doc-link" title="Ver documento">📄</a>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+                {% if not mestre %}
+                    {% regroup itens by nome as item_groups %}
+                    {% for group in item_groups %}
+                        {% with item=group.list.0 %}
+                            <a id="link-ficha" {% if item.documento %} href="{{ item.documento.url }}" target="_blank" {% endif %}>
+                                <div id="item-card-{{ item.id }}" class="item-card" data-target="{{ item.atributo_modificado|lower }}" data-mod="{{ item.modificador }}">
+                                    <div class="item-header">
+                                        <h2>{{ group.grouper }}</h2>
+                                    </div>
+                                    <div class="item-details">
+                                        <p class="detail-row">
+                                            <span class="label">Atributo:</span>
+                                            <span class="value">{% if item.atributo_modificado_text != none %}{{ item.atributo_modificado_text }}{% else %}{{ item.get_atributo_modificado_display }}{% endif %}</span>
+                                        </p>
+                                        <p class="detail-row">
+                                            <span class="label">Mod:</span>
+                                            <span class="value">{{ item.modificador }}</span>
+                                        </p>
+                                        <p class="detail-row">
+                                            <span class="label">Qtd:</span>
+                                            <input type="number" readonly class="quantidade-input" data-id="{{ item.id }}" name="quantidade_{{ item.id }}" value="{{ item.quantidade }}">
+                                        </p>
+                                    </div>
+                                    <div class="item-footer">
+                                        <button type="button" data-id="{{ item.id }}" class="decrementar">−</button>
+                                        <label class="checkbox-label">
+                                            <input name="equipado_{{ item.id }}" type="checkbox" class="equipar-checkbox" data-id="{{ item.id }}" {% if item.equipado %}checked{% endif %}>
+                                            <span>Equipado</span>
+                                        </label>
+                                    </div>
+                                    {% if item.documento %}
+                                        <a href="{{ item.documento.url }}" target="_blank" class="doc-link" title="Ver documento">#</a>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        {% endwith %}
+                    {% endfor %}
+                {% else %}
+                    {% for item in itens %}
+                        <a id="link-ficha" {% if item.documento %} href="{{ item.documento.url }}" target="_blank" {% endif %}>
+                            <div id="item-card-{{ item.id }}" class="item-card" data-target="{{ item.atributo_modificado|lower }}" data-mod="{{ item.modificador }}">
+                                <div class="item-header">
+                                    <h2>{{ item.nome }}</h2>
+                                </div>
+                                <div class="item-details">
+                                    <p class="detail-row">
+                                        <span class="label">Atributo:</span>
+                                        <span class="value">{% if item.atributo_modificado_text != none %}{{ item.atributo_modificado_text }}{% else %}{{ item.get_atributo_modificado_display }}{% endif %}</span>
+                                    </p>
+                                    <p class="detail-row">
+                                        <span class="label">Mod:</span>
+                                        <span class="value">{{ item.modificador }}</span>
+                                    </p>
+                                    <p class="detail-row">
+                                        <span class="label">Qtd:</span>
+                                        <input type="number" readonly class="quantidade-input" data-id="{{ item.id }}" name="quantidade_{{ item.id }}" value="{{ item.quantidade }}">
+                                    </p>
+                                </div>
+                                <div class="item-footer">
+                                    <button type="button" data-id="{{ item.id }}" class="decrementar">−</button>
+                                    <label class="checkbox-label">
+                                        <input name="equipado_{{ item.id }}" type="checkbox" class="equipar-checkbox" data-id="{{ item.id }}" {% if item.equipado %}checked{% endif %}>
+                                        <span>Equipado</span>
+                                    </label>
+                                </div>
+                                {% if item.documento %}
+                                    <a href="{{ item.documento.url }}" target="_blank" class="doc-link" title="Ver documento">#</a>
+                                {% endif %}
+                                <span class="item-btn">
+                                    <a href="{% url 'editar_item' item.id %}" class="btn-editar-item">Editar</a>
+                                </span>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
         <button name="btn_salvar" type="submit">Salvar</button>
