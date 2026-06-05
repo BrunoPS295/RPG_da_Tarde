@@ -129,7 +129,18 @@ def criar_rpg(request):
 #itens
 def inventario(request, id):
     ficha = get_object_or_404(Ficha, id=id)
-    itens = Itens.objects.filter(ficha=ficha).order_by('nome')
+    itens = Itens.objects.filter(ficha=ficha, quantidade__gt=0).order_by('nome')
+    if request.method == 'POST':
+        for item in itens:
+            quantidade = request.POST.get(f"quantidade_{item.id}")
+            if quantidade is not None:
+                try:
+                    item.quantidade = max(0, int(quantidade))
+                except ValueError:
+                    pass
+            item.equipado = request.POST.get(f"equipado_{item.id}") is not None
+            item.save()
+        return redirect('inventario', id=ficha.id)
     context = {'ficha': ficha, 'itens': itens}
     return render(request, 'rpg/inventario.html', context)
 

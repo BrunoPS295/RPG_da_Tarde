@@ -2,7 +2,7 @@ import { rolls } from './rolls.js';
 
 const input_i_pv = document.querySelector('[name="i_pv"]')
 const max_pv = document.querySelector('[name="max_pv"]');
-const atual_pv = document.getElementById("pv_value")
+const atual_pv = document.querySelector('[name="atual_pv"]');
 const temp_pv = document.getElementById("temp_pv")
 const dpv = document.querySelector('[name="dado_de_vida"]');
 const exp = document.querySelector('[name="experiencia"]');
@@ -45,7 +45,7 @@ for (let i = 0; i < pericias.length; i++) {
 
 let modificadores = {};
 
-let itens = document.querySelectorAll('.item-card');
+let itens = document.querySelectorAll('.item-card[data-equip="true"]');
 
 // itens brut
 itens.forEach(item => {
@@ -164,8 +164,8 @@ if (pv !== parseInt(max_pv.value) || parseInt(input_i_pv.value) !== i_pv){
 
 }
 
-console.log(atual_pv.textContent)
-temp_pv.textContent = atual_pv.textContent - pv
+console.log(atual_pv.value)
+temp_pv.textContent = atual_pv.value - pv
 
 // Salva morte
 const checksSucesso = document.querySelectorAll('.check-sucesso');

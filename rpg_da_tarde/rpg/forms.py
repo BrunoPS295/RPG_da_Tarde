@@ -23,6 +23,7 @@ class FichaForm(forms.ModelForm):
             'inspiracao',    
             'max_pv',
             'i_pv',
+            'atual_pv',
             'dado_de_vida',
             'bonus_de_proficiencia',
 
@@ -84,6 +85,8 @@ class ItemForm(forms.ModelForm):
             'atributo_modificado_text',
             'modificador',
             'documento',
+            'quantidade',
+            'equipado',
         ]
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
@@ -105,5 +108,7 @@ class rpgForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(rpgForm, self).__init__(*args, **kwargs)
+
+
 
 

@@ -2,8 +2,8 @@
 {% load static %}
 {% block content %}
     <head>
-         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.7" defer> </script>
-         <link rel="stylesheet" href="{% static 'rpg/styles/ficha.css' %}?v=2.2">
+         <script type="module" src="{% static 'rpg/scripts/ficha.js' %}?v=1.9" defer> </script>
+         <link rel="stylesheet" href="{% static 'rpg/styles/ficha.css' %}?v=2.4">
 
         {% if ficha and ficha.rpg and ficha.rpg.rpg_nome == "eryndral" %}
             <link rel="stylesheet" href="{% static 'rpg/styles/complementos/eryndral.css' %}">
@@ -309,7 +309,7 @@
                         <input type="number" name="max_pv" id="max_pv" readonly value="{{ ficha.max_pv|default_if_none:'0' }}">
                     </p>
                     <p id="pv_value">
-                        {{ficha.atual_pv}}
+                        <input type="number" name="atual_pv" id="atual_pv" value="{{ ficha.atual_pv|default_if_none:'0' }}">
                     </p>
                     <h2>Pontos de vida</h2>
                 </div>
@@ -386,10 +386,10 @@
         <div id="itens-container">
             <h1>Itens</h1>
             {% if ficha.id %}
-                <a href="{% url 'inventario' ficha.id %}">Ver Inventário</a> 
+                <a href="{% url 'inventario' ficha.id %}" class="btn-inventario">Ver Inventário</a> 
             {% endif %}
             {% for item in itens %}
-                <div id="item-card-{{ item.id }}" class="item-card" data-target="{{ item.atributo_modificado|lower }}" data-mod="{{ item.modificador }}">
+                <div style="display:none;" id="item-card-{{ item.id }}" class="item-card" data-target="{{ item.atributo_modificado|lower }}" data-mod="{{ item.modificador }}" data-equip="{% if item.equipado %}true{% else %}false{% endif %}">
                     <p>
                         <a id="link-ficha-{{ item.id }}" {% if item.documento %} href="{{ item.documento.url }}" target="_blank" {% endif %}>
                             <strong>{{ item.nome }}</strong> - <span>Atributo Modificado: {% if item.atributo_modificado_text != none %}{{ item.atributo_modificado_text }}{% else %}{{ item.get_atributo_modificado_display }}{% endif %}</span> - <span>Modificador: {{ item.modificador }}</span>

@@ -50,6 +50,8 @@ class Itens(models.Model):
     atributo_modificado_text = models.CharField(max_length=100, blank=True, null=True)
     modificador = models.CharField(max_length=100, blank=True, null=True)
     documento = models.FileField(upload_to='documentos/itens', blank=True, null=True)
+    quantidade = models.IntegerField(default=1)
+    equipado = models.BooleanField(default=False)
 
     class Meta:
         verbose_name_plural = "Itens"

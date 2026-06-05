@@ -83,6 +83,9 @@ form textarea {
     color: #333;
 }
 
+form p:nth-of-type(8) {
+    display: none;
+}
 
 button {
     cursor: pointer;
