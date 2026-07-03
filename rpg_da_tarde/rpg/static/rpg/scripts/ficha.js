@@ -156,7 +156,7 @@ while (i_pv < nivel){
     }
     i_pv++
     console.log(`Nível ${i_pv}: PV total: ${pv}`);
-    form.requestSubmit();
+    //form.requestSubmit();
 }
 
 if (pv !== parseInt(max_pv.value) || parseInt(input_i_pv.value) !== i_pv){
