@@ -2,11 +2,18 @@ import secrets
 from django.db import models
 from django.contrib.auth.models import User
 
+fichas = [
+    ('dnd', 'Dungeons and Dragons'),
+    ('demon_lord', 'Shadow of The Demon Lord'),
+    ('cosmere', 'Cosmere')
+]
+
 class RPGmodel(models.Model):
     rpg_nome = models.CharField(max_length=100)
     mestre = models.ForeignKey(User, related_name='mestre', on_delete=models.CASCADE)
     jogadores = models.ManyToManyField(User, related_name='jogadores')
     key = models.CharField(max_length=10, unique=True, editable=False)
+    ficha = models.CharField(choices=fichas, default='dnd')
 
     def save(self, *args, **kwargs):
         if not self.key:
